@@ -1,49 +1,5 @@
 import Link from "next/link";
-
-interface Player {
-  name: string;
-  region: "NA" | "EU" | "KR";
-  twitch: string;
-  mainChampions: string[];
-  record: string;
-  points: number;
-  avatar?: string;
-}
-
-const featuredPlayers: Player[] = [
-  {
-    name: "Humzh",
-    region: "NA",
-    twitch: "humzh",
-    mainChampions: ["Darius", "Renekton", "Mordekaiser"],
-    record: "2-1",
-    points: 350,
-  },
-  {
-    name: "AloisNL",
-    region: "EU",
-    twitch: "alois_nl",
-    mainChampions: ["Darius", "Camille", "Sett"],
-    record: "1-0",
-    points: 300,
-  },
-  {
-    name: "Drututt",
-    region: "EU",
-    twitch: "drututt",
-    mainChampions: ["Camille", "Fiora", "Irelia"],
-    record: "1-1",
-    points: 250,
-  },
-  {
-    name: "TFBlade",
-    region: "NA",
-    twitch: "tfblade",
-    mainChampions: ["Jax", "Irelia", "Akali"],
-    record: "0-2",
-    points: 220,
-  },
-];
+import { playersAPI, Player } from "@/lib/api";
 
 const getRegionColor = (region: string) => {
   switch (region) {
@@ -58,7 +14,18 @@ const getRegionColor = (region: string) => {
   }
 };
 
-export default function FeaturedPlayers() {
+export default async function FeaturedPlayers() {
+  let featuredPlayers: Player[] = [];
+
+  try {
+    const allPlayers = await playersAPI.getAll();
+    // Get first 4 players or limit based on your logic
+    featuredPlayers = allPlayers.slice(0, 4);
+  } catch (error) {
+    console.error('Failed to fetch players:', error);
+    featuredPlayers = [];
+  }
+
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-gradient-to-b from-transparent to-tyler1-dark/50">
       <div className="text-center mb-12">
@@ -68,8 +35,13 @@ export default function FeaturedPlayers() {
         <p className="text-gray-400">Top performers this season</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {featuredPlayers.map((player) => (
+      {featuredPlayers.length === 0 ? (
+        <div className="text-center py-12 bg-tyler1-grey rounded-lg">
+          <p className="text-gray-400 text-lg">No featured players available yet. Check back soon!</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {featuredPlayers.map((player: Player) => (
           <div
             key={player.name}
             className="bg-tyler1-grey rounded-lg overflow-hidden border-2 border-tyler1-dark hover:border-tyler1-red transition-all duration-300 hover:scale-105 group"
@@ -114,10 +86,11 @@ export default function FeaturedPlayers() {
               </div>
 
               {/* Main Champions */}
-              <div className="mb-4">
-                <p className="text-xs text-gray-400 mb-2">Main Champions:</p>
-                <div className="flex gap-2">
-                  {player.mainChampions.map((champ, idx) => (
+              {player.champions && player.champions.length > 0 && (
+                <div className="mb-4">
+                  <p className="text-xs text-gray-400 mb-2">Main Champions:</p>
+                  <div className="flex gap-2">
+                    {player.champions.map((champ: string, idx: number) => (
                     <div
                       key={idx}
                       className="flex-1 bg-tyler1-dark rounded px-2 py-1 text-xs text-center text-white border border-tyler1-grey"
@@ -126,14 +99,15 @@ export default function FeaturedPlayers() {
                       {champ}
                     </div>
                   ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <div className="bg-tyler1-dark rounded p-2 text-center">
                   <p className="text-xs text-gray-400">Record</p>
-                  <p className="text-lg font-bold text-white">{player.record}</p>
+                  <p className="text-lg font-bold text-white">{player.record || 'N/A'}</p>
                 </div>
                 <div className="bg-tyler1-dark rounded p-2 text-center">
                   <p className="text-xs text-gray-400">Points</p>
@@ -151,16 +125,19 @@ export default function FeaturedPlayers() {
             </div>
           </div>
         ))}
-      </div>
+        </div>
+      )}
 
-      <div className="text-center mt-8">
-        <Link
-          href="/players"
-          className="inline-block text-tyler1-red hover:text-red-500 font-bold transition-colors duration-200"
-        >
-          View All Players →
-        </Link>
-      </div>
+      {featuredPlayers.length > 0 && (
+        <div className="text-center mt-8">
+          <Link
+            href="/players"
+            className="inline-block text-tyler1-red hover:text-red-500 font-bold transition-colors duration-200"
+          >
+            View All Players →
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

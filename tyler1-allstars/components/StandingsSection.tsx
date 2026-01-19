@@ -1,25 +1,5 @@
 import Link from "next/link";
-
-interface Player {
-  rank: number;
-  name: string;
-  region: "NA" | "EU" | "KR";
-  points: number;
-  tournaments: number;
-  wins: number;
-  prize: number;
-}
-
-const standingsData: Player[] = [
-  { rank: 1, name: "Humzh", region: "NA", points: 350, tournaments: 4, wins: 2, prize: 8000 },
-  { rank: 2, name: "AloisNL", region: "EU", points: 300, tournaments: 3, wins: 1, prize: 10000 },
-  { rank: 3, name: "Drututt", region: "EU", points: 250, tournaments: 4, wins: 1, prize: 5000 },
-  { rank: 4, name: "TFBlade", region: "NA", points: 220, tournaments: 3, wins: 0, prize: 3000 },
-  { rank: 5, name: "Nemesis", region: "EU", points: 200, tournaments: 2, wins: 0, prize: 2000 },
-  { rank: 6, name: "Solarbacca", region: "NA", points: 180, tournaments: 3, wins: 0, prize: 1500 },
-  { rank: 7, name: "Agurin", region: "EU", points: 150, tournaments: 2, wins: 0, prize: 1000 },
-  { rank: 8, name: "Adrian", region: "NA", points: 120, tournaments: 2, wins: 0, prize: 500 },
-];
+import { standingsAPI, Standing } from "@/lib/api";
 
 const getRankMedal = (rank: number) => {
   switch (rank) {
@@ -47,7 +27,16 @@ const getRegionColor = (region: string) => {
   }
 };
 
-export default function StandingsSection() {
+export default async function StandingsSection() {
+  let standingsData: Standing[] = [];
+
+  try {
+    standingsData = await standingsAPI.getAll();
+  } catch (error) {
+    console.error('Failed to fetch standings:', error);
+    standingsData = [];
+  }
+
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center mb-12">
@@ -64,9 +53,15 @@ export default function StandingsSection() {
         </div>
       </div>
 
-      {/* Desktop Table */}
-      <div className="hidden md:block overflow-x-auto bg-tyler1-grey rounded-lg border border-tyler1-grey">
-        <table className="w-full">
+      {standingsData.length === 0 ? (
+        <div className="text-center py-12 bg-tyler1-grey rounded-lg">
+          <p className="text-gray-400 text-lg">No standings data available yet. Check back soon!</p>
+        </div>
+      ) : (
+        <>
+          {/* Desktop Table */}
+          <div className="hidden md:block overflow-x-auto bg-tyler1-grey rounded-lg border border-tyler1-grey">
+            <table className="w-full">
           <thead className="bg-tyler1-dark border-b border-tyler1-grey">
             <tr>
               <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
@@ -201,6 +196,8 @@ export default function StandingsSection() {
           View Full Standings →
         </Link>
       </div>
+        </>
+      )}
     </section>
   );
 }

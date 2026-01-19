@@ -1,57 +1,5 @@
 import Link from "next/link";
-
-interface ScheduleItem {
-  week: number;
-  date: string;
-  region: "NA" | "EU" | "KR";
-  status: "complete" | "live" | "upcoming";
-  participants?: string[];
-}
-
-const scheduleData: ScheduleItem[] = [
-  {
-    week: 1,
-    date: "Jan 27",
-    region: "NA",
-    status: "complete",
-    participants: ["Humzh", "TFBlade", "Solarbacca", "Adrian", "Pstar", "Quantum", "Manco", "Tyler1"],
-  },
-  {
-    week: 2,
-    date: "Feb 3",
-    region: "EU",
-    status: "complete",
-    participants: ["AloisNL", "Drututt", "NattyNatt", "Nemesis", "Baus", "Thebausffs", "Agurin", "Elite500"],
-  },
-  {
-    week: 3,
-    date: "Feb 10",
-    region: "KR",
-    status: "live",
-    participants: ["Zeus", "Keria", "Chovy", "Faker", "Deft", "Ruler", "ShowMaker", "Canyon"],
-  },
-  {
-    week: 4,
-    date: "Feb 17",
-    region: "NA",
-    status: "upcoming",
-    participants: [],
-  },
-  {
-    week: 5,
-    date: "Feb 24",
-    region: "EU",
-    status: "upcoming",
-    participants: [],
-  },
-  {
-    week: 6,
-    date: "Mar 3",
-    region: "KR",
-    status: "upcoming",
-    participants: [],
-  },
-];
+import { tournamentsAPI, Tournament } from "@/lib/api";
 
 const getStatusStyles = (status: string) => {
   switch (status) {
@@ -92,7 +40,16 @@ const getRegionFlag = (region: string) => {
   }
 };
 
-export default function ScheduleSection() {
+export default async function ScheduleSection() {
+  let scheduleData: Tournament[] = [];
+
+  try {
+    scheduleData = await tournamentsAPI.getAll();
+  } catch (error) {
+    console.error('Failed to fetch tournaments:', error);
+    scheduleData = [];
+  }
+
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center mb-12">
@@ -102,8 +59,13 @@ export default function ScheduleSection() {
         <p className="text-gray-400">Weekly tournaments across all regions</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {scheduleData.map((item) => (
+      {scheduleData.length === 0 ? (
+        <div className="text-center py-12 bg-tyler1-grey rounded-lg">
+          <p className="text-gray-400 text-lg">No tournament schedule available yet. Check back soon!</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {scheduleData.map((item: Tournament) => (
           <div
             key={item.week}
             className={`border-2 rounded-lg p-6 transition-all duration-300 hover:scale-105 ${getStatusStyles(
@@ -173,7 +135,8 @@ export default function ScheduleSection() {
             )}
           </div>
         ))}
-      </div>
+        </div>
+      )}
 
       <div className="text-center mt-8">
         <Link

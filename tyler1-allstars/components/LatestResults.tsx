@@ -1,6 +1,43 @@
 import Link from "next/link";
+import { resultsAPI, Result } from "@/lib/api";
 
-export default function LatestResults() {
+export default async function LatestResults() {
+  let latestResult: Result | null = null;
+
+  try {
+    const results = await resultsAPI.getAll();
+    // Get the most recent result (assuming they're ordered by date)
+    latestResult = results.length > 0 ? results[0] : null;
+  } catch (error) {
+    console.error('Failed to fetch results:', error);
+    latestResult = null;
+  }
+
+  if (!latestResult) {
+    return (
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-white mb-4">
+            Latest <span className="text-tyler1-red">Results</span>
+          </h2>
+          <p className="text-gray-400">Most recent tournament outcome</p>
+        </div>
+        <div className="text-center py-12 bg-tyler1-grey rounded-lg">
+          <p className="text-gray-400 text-lg">No results available yet. Check back after the first tournament!</p>
+        </div>
+      </section>
+    );
+  }
+
+  const getRegionFlag = (region: string) => {
+    switch (region) {
+      case "NA": return "🇺🇸";
+      case "EU": return "🇪🇺";
+      case "KR": return "🇰🇷";
+      default: return "";
+    }
+  };
+
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center mb-12">
@@ -15,9 +52,9 @@ export default function LatestResults() {
         <div className="bg-gradient-to-br from-tyler1-grey to-tyler1-dark rounded-lg border-2 border-tyler1-red p-8 mb-8">
           <div className="text-center mb-6">
             <div className="inline-block bg-tyler1-red/20 border border-tyler1-red rounded-lg px-4 py-2 mb-4">
-              <p className="text-tyler1-red font-bold text-sm">WEEK 2 - EU ALL STARS</p>
+              <p className="text-tyler1-red font-bold text-sm">{latestResult.tournament.toUpperCase()}</p>
             </div>
-            <p className="text-gray-400 text-sm">February 3, 2026</p>
+            <p className="text-gray-400 text-sm">{latestResult.date}</p>
           </div>
 
           {/* Winner Section */}
@@ -27,19 +64,13 @@ export default function LatestResults() {
                 <div className="text-5xl">🏆</div>
                 <div>
                   <p className="text-sm text-gray-400 mb-1">Champion</p>
-                  <p className="text-3xl font-bold text-white mb-1">AloisNL</p>
-                  <p className="text-sm text-yellow-400">🇪🇺 EU</p>
+                  <p className="text-3xl font-bold text-white mb-1">{latestResult.winner}</p>
+                  <p className="text-sm text-yellow-400">{getRegionFlag(latestResult.region)} {latestResult.region}</p>
                 </div>
               </div>
               <div className="text-right">
                 <p className="text-sm text-gray-400 mb-1">Prize</p>
-                <p className="text-3xl font-bold text-green-400">$10,000</p>
-              </div>
-            </div>
-            <div className="mt-4 pt-4 border-t border-tyler1-grey">
-              <p className="text-sm text-gray-400 mb-2">Championship Pick:</p>
-              <div className="inline-block bg-tyler1-red/20 border border-tyler1-red rounded px-3 py-1">
-                <span className="text-white font-bold">Darius</span>
+                <p className="text-3xl font-bold text-green-400">${latestResult.prize_pool.toLocaleString()}</p>
               </div>
             </div>
           </div>
@@ -51,8 +82,8 @@ export default function LatestResults() {
                 <div className="text-4xl">🥈</div>
                 <div>
                   <p className="text-sm text-gray-400 mb-1">Runner-up</p>
-                  <p className="text-2xl font-bold text-white mb-1">Drututt</p>
-                  <p className="text-sm text-yellow-400">🇪🇺 EU</p>
+                  <p className="text-2xl font-bold text-white mb-1">{latestResult.runner_up}</p>
+                  <p className="text-sm text-yellow-400">{getRegionFlag(latestResult.region)} {latestResult.region}</p>
                 </div>
               </div>
               <div className="text-right">
