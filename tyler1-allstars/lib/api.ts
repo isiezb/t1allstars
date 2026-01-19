@@ -19,8 +19,6 @@ export interface Player {
   description?: string;
   twitch?: string;
   twitter?: string;
-  record?: string;
-  points?: number;
   created_at?: string;
   updated_at?: string;
 }

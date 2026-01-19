@@ -14,7 +14,6 @@ export default function AdminPlayers() {
     region: 'NA' as 'NA' | 'EU' | 'KR',
     twitch: '',
     twitter: '',
-    record: '',
   });
 
   useEffect(() => {
@@ -46,7 +45,7 @@ export default function AdminPlayers() {
 
       setShowForm(false);
       setEditingPlayer(null);
-      setFormData({ name: '', region: 'NA', twitch: '', twitter: '', record: '' });
+      setFormData({ name: '', region: 'NA', twitch: '', twitter: '' });
       fetchPlayers();
     } catch (error) {
       alert('Failed to save player: ' + (error instanceof Error ? error.message : 'Unknown error'));
@@ -60,7 +59,6 @@ export default function AdminPlayers() {
       region: player.region,
       twitch: player.twitch || '',
       twitter: player.twitter || '',
-      record: player.record || '',
     });
     setShowForm(true);
   };
@@ -82,7 +80,7 @@ export default function AdminPlayers() {
   const cancelForm = () => {
     setShowForm(false);
     setEditingPlayer(null);
-    setFormData({ name: '', region: 'NA', twitch: '', twitter: '', record: '' });
+    setFormData({ name: '', region: 'NA', twitch: '', twitter: '' });
   };
 
   return (
@@ -152,17 +150,6 @@ export default function AdminPlayers() {
                     onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
                     className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
                     placeholder="e.g., loltyler1"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Record</label>
-                  <input
-                    type="text"
-                    value={formData.record}
-                    onChange={(e) => setFormData({ ...formData, record: e.target.value })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                    placeholder="e.g., 2-1"
                   />
                 </div>
               </div>
@@ -238,11 +225,6 @@ export default function AdminPlayers() {
                   {player.twitter && (
                     <p className="text-gray-300">
                       <span className="text-gray-400">Twitter:</span> {player.twitter}
-                    </p>
-                  )}
-                  {player.record && (
-                    <p className="text-gray-300">
-                      <span className="text-gray-400">Record:</span> {player.record}
                     </p>
                   )}
                 </div>
