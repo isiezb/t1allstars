@@ -12,6 +12,7 @@ export default function AdminTournaments() {
   const [formData, setFormData] = useState({
     week: 1,
     date: '',
+    time: '',
     region: 'NA' as 'NA' | 'EU' | 'KR',
     status: 'upcoming' as 'complete' | 'live' | 'upcoming',
     participants: '',
@@ -38,8 +39,19 @@ export default function AdminTournaments() {
     if (!token) return;
 
     try {
+      // Combine date and time to create ISO datetime in CST
+      // CST is UTC-6, so we need to convert to UTC
+      const dateTimeStr = `${formData.date}T${formData.time}:00`;
+      const localDate = new Date(dateTimeStr);
+
+      // Convert CST to UTC (add 6 hours)
+      const utcDate = new Date(localDate.getTime() + (6 * 60 * 60 * 1000));
+
       const tournamentData = {
-        ...formData,
+        week: formData.week,
+        date: utcDate.toISOString(),
+        region: formData.region,
+        status: formData.status,
         participants: formData.participants.split(',').map(p => p.trim()).filter(p => p),
       };
 
@@ -51,7 +63,7 @@ export default function AdminTournaments() {
 
       setShowForm(false);
       setEditingTournament(null);
-      setFormData({ week: 1, date: '', region: 'NA', status: 'upcoming', participants: '' });
+      setFormData({ week: 1, date: '', time: '', region: 'NA', status: 'upcoming', participants: '' });
       fetchTournaments();
     } catch (error) {
       alert('Failed to save tournament: ' + (error instanceof Error ? error.message : 'Unknown error'));
@@ -60,9 +72,18 @@ export default function AdminTournaments() {
 
   const handleEdit = (tournament: Tournament) => {
     setEditingTournament(tournament);
+
+    // Convert ISO datetime back to CST for editing
+    const utcDate = new Date(tournament.date);
+    const cstDate = new Date(utcDate.getTime() - (6 * 60 * 60 * 1000));
+
+    const dateStr = cstDate.toISOString().split('T')[0];
+    const timeStr = cstDate.toTimeString().slice(0, 5);
+
     setFormData({
       week: tournament.week,
-      date: tournament.date,
+      date: dateStr,
+      time: timeStr,
       region: tournament.region,
       status: tournament.status,
       participants: tournament.participants.join(', '),
@@ -87,7 +108,7 @@ export default function AdminTournaments() {
   const cancelForm = () => {
     setShowForm(false);
     setEditingTournament(null);
-    setFormData({ week: 1, date: '', region: 'NA', status: 'upcoming', participants: '' });
+    setFormData({ week: 1, date: '', time: '', region: 'NA', status: 'upcoming', participants: '' });
   };
 
   const getStatusBadge = (status: string) => {
@@ -135,15 +156,26 @@ export default function AdminTournaments() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Date *</label>
+                  <label className="block text-sm font-bold text-gray-300 mb-2">Date (CST) *</label>
                   <input
-                    type="text"
+                    type="date"
                     required
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                     className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                    placeholder="e.g., Feb 10, 2026"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-300 mb-2">Time (CST) *</label>
+                  <input
+                    type="time"
+                    required
+                    value={formData.time}
+                    onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Enter time in CST (Central Standard Time)</p>
                 </div>
 
                 <div>

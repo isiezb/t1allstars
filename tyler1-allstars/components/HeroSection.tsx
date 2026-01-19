@@ -1,5 +1,6 @@
 import { tournamentsAPI } from "@/lib/api";
 import CountdownTimer from "./CountdownTimer";
+import LocalDateTime from "./LocalDateTime";
 
 const getRegionFlag = (region: string) => {
   switch (region) {
@@ -60,7 +61,7 @@ export default async function HeroSection() {
                   NEXT TOURNAMENT: {getRegionFlag(nextTournament.region)} {nextTournament.region}
                 </p>
                 <p className="text-lg sm:text-xl text-gray-300">
-                  {nextTournament.date}
+                  <LocalDateTime dateString={nextTournament.date} showTime={true} />
                 </p>
               </div>
 
