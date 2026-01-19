@@ -79,8 +79,8 @@ export default async function HeroSection() {
             </div>
           )}
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* CTA Button */}
+          <div className="flex justify-center">
             <a
               href="https://twitch.tv/loltyler1"
               target="_blank"
@@ -96,11 +96,6 @@ export default async function HeroSection() {
                 <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
               </svg>
             </a>
-
-            <div className="text-center">
-              <p className="text-sm text-gray-400 mb-1">Current Prize Pool</p>
-              <p className="text-3xl font-bold text-tyler1-gold">$50,000</p>
-            </div>
           </div>
 
           {/* Format Info */}
