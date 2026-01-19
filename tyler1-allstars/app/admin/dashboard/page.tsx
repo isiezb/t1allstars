@@ -45,7 +45,7 @@ export default function AdminDashboard() {
   const statCards = [
     { label: 'Total Players', value: stats.players, icon: '👥', color: 'blue', href: '/admin/players' },
     { label: 'Tournaments', value: stats.tournaments, icon: '🏆', color: 'yellow', href: '/admin/tournaments' },
-    { label: 'Standings Entries', value: stats.standings, icon: '📈', color: 'green', href: '/admin/standings' },
+    { label: 'Hall of Fame Entries', value: stats.standings, icon: '📈', color: 'green', href: '/admin/standings' },
     { label: 'Results', value: stats.results, icon: '🎯', color: 'red', href: '/admin/results' },
   ];
 

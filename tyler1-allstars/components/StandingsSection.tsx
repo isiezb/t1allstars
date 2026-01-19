@@ -41,16 +41,11 @@ export default async function StandingsSection() {
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-white mb-4">
-          Season <span className="text-tyler1-red">Standings</span>
+          Hall of <span className="text-tyler1-red">Fame</span>
         </h2>
-        <p className="text-gray-400 mb-6">
-          Top 4 qualify for the Season Finale
+        <p className="text-gray-400">
+          Season 1 Winter 2026 Champions
         </p>
-        <div className="inline-block bg-tyler1-red/10 border border-tyler1-red rounded-lg px-4 py-2">
-          <p className="text-tyler1-red font-bold text-sm">
-            🏆 Grand Prize: $50,000
-          </p>
-        </div>
       </div>
 
       {standingsData.length === 0 ? (
@@ -74,9 +69,6 @@ export default async function StandingsSection() {
                 Region
               </th>
               <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
-                Points
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
                 Tournaments
               </th>
               <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
@@ -91,9 +83,7 @@ export default async function StandingsSection() {
             {standingsData.map((player) => (
               <tr
                 key={player.rank}
-                className={`hover:bg-tyler1-dark transition-colors duration-150 ${
-                  player.rank <= 4 ? "bg-tyler1-red/5 border-l-4 border-l-tyler1-red" : ""
-                }`}
+                className="hover:bg-tyler1-dark transition-colors duration-150"
               >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-xl font-bold text-white">
@@ -111,11 +101,6 @@ export default async function StandingsSection() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`font-bold ${getRegionColor(player.region)}`}>
                     {player.region}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="text-lg font-bold text-tyler1-gold">
-                    {player.points}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-white">
@@ -140,32 +125,22 @@ export default async function StandingsSection() {
         {standingsData.map((player) => (
           <div
             key={player.rank}
-            className={`bg-tyler1-grey rounded-lg p-4 border-2 ${
-              player.rank <= 4 ? "border-tyler1-red" : "border-transparent"
-            }`}
+            className="bg-tyler1-grey rounded-lg p-4 border-2 border-transparent"
           >
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <div className="text-2xl font-bold text-white">
-                  {getRankMedal(player.rank)}
-                </div>
-                <div>
-                  <Link
-                    href={`/players/${player.name.toLowerCase()}`}
-                    className="text-lg font-bold text-white hover:text-tyler1-red"
-                  >
-                    {player.name}
-                  </Link>
-                  <div className={`text-sm font-bold ${getRegionColor(player.region)}`}>
-                    {player.region}
-                  </div>
-                </div>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="text-2xl font-bold text-white">
+                {getRankMedal(player.rank)}
               </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-tyler1-gold">
-                  {player.points}
+              <div>
+                <Link
+                  href={`/players/${player.name.toLowerCase()}`}
+                  className="text-lg font-bold text-white hover:text-tyler1-red"
+                >
+                  {player.name}
+                </Link>
+                <div className={`text-sm font-bold ${getRegionColor(player.region)}`}>
+                  {player.region}
                 </div>
-                <div className="text-xs text-gray-400">points</div>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2 text-center border-t border-tyler1-dark pt-3">
@@ -193,7 +168,7 @@ export default async function StandingsSection() {
           href="/standings"
           className="inline-block text-tyler1-red hover:text-red-500 font-bold transition-colors duration-200"
         >
-          View Full Standings →
+          View Full Hall of Fame →
         </Link>
       </div>
         </>
