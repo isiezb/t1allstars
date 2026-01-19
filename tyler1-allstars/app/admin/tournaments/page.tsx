@@ -142,80 +142,86 @@ export default function AdminTournaments() {
               {editingTournament ? 'Edit Tournament' : 'Add New Tournament'}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-bold text-gray-300 mb-2">Week Number *</label>
+                    <input
+                      type="number"
+                      required
+                      min="1"
+                      value={formData.week}
+                      onChange={(e) => setFormData({ ...formData, week: Number(e.target.value) })}
+                      className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-gray-300 mb-2">Date (CST) *</label>
+                    <input
+                      type="date"
+                      required
+                      value={formData.date}
+                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                      className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-gray-300 mb-2">Time (CST) *</label>
+                    <input
+                      type="time"
+                      required
+                      value={formData.time}
+                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                      className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                      placeholder="20:00"
+                    />
+                  </div>
+                </div>
+
+                <p className="text-xs text-gray-500">Enter date and time in CST (Central Standard Time)</p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-bold text-gray-300 mb-2">Region *</label>
+                    <select
+                      required
+                      value={formData.region}
+                      onChange={(e) => setFormData({ ...formData, region: e.target.value as 'NA' | 'EU' | 'KR' })}
+                      className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                    >
+                      <option value="NA">NA</option>
+                      <option value="EU">EU</option>
+                      <option value="KR">KR</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-gray-300 mb-2">Status *</label>
+                    <select
+                      required
+                      value={formData.status}
+                      onChange={(e) => setFormData({ ...formData, status: e.target.value as 'complete' | 'live' | 'upcoming' })}
+                      className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                    >
+                      <option value="upcoming">Upcoming</option>
+                      <option value="live">Live</option>
+                      <option value="complete">Complete</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Week Number *</label>
+                  <label className="block text-sm font-bold text-gray-300 mb-2">Participants (comma separated)</label>
                   <input
-                    type="number"
-                    required
-                    min="1"
-                    value={formData.week}
-                    onChange={(e) => setFormData({ ...formData, week: Number(e.target.value) })}
+                    type="text"
+                    value={formData.participants}
+                    onChange={(e) => setFormData({ ...formData, participants: e.target.value })}
                     className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                    placeholder="e.g., Humzh, TFBlade, Solarbacca, Adrian"
                   />
                 </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Date (CST) *</label>
-                  <input
-                    type="date"
-                    required
-                    value={formData.date}
-                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Time (CST) *</label>
-                  <input
-                    type="time"
-                    required
-                    value={formData.time}
-                    onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">Enter time in CST (Central Standard Time)</p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Region *</label>
-                  <select
-                    required
-                    value={formData.region}
-                    onChange={(e) => setFormData({ ...formData, region: e.target.value as 'NA' | 'EU' | 'KR' })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                  >
-                    <option value="NA">NA</option>
-                    <option value="EU">EU</option>
-                    <option value="KR">KR</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Status *</label>
-                  <select
-                    required
-                    value={formData.status}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value as 'complete' | 'live' | 'upcoming' })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                  >
-                    <option value="upcoming">Upcoming</option>
-                    <option value="live">Live</option>
-                    <option value="complete">Complete</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold text-gray-300 mb-2">Participants (comma separated)</label>
-                <input
-                  type="text"
-                  value={formData.participants}
-                  onChange={(e) => setFormData({ ...formData, participants: e.target.value })}
-                  className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                  placeholder="e.g., Humzh, TFBlade, Solarbacca, Adrian"
-                />
               </div>
 
               <div className="flex gap-4">
