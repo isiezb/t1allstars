@@ -15,11 +15,10 @@ export interface Player {
   id: string;
   name: string;
   region: 'NA' | 'EU' | 'KR';
-  title?: string;
   image?: string;
   description?: string;
   twitch?: string;
-  champions?: string[];
+  twitter?: string;
   record?: string;
   points?: number;
   created_at?: string;

@@ -12,9 +12,8 @@ export default function AdminPlayers() {
   const [formData, setFormData] = useState({
     name: '',
     region: 'NA' as 'NA' | 'EU' | 'KR',
-    title: '',
     twitch: '',
-    champions: '',
+    twitter: '',
     record: '',
     points: 0,
   });
@@ -40,20 +39,15 @@ export default function AdminPlayers() {
     if (!token) return;
 
     try {
-      const playerData = {
-        ...formData,
-        champions: formData.champions.split(',').map(c => c.trim()).filter(c => c),
-      };
-
       if (editingPlayer) {
-        await adminPlayersAPI.update(editingPlayer.id, playerData, token);
+        await adminPlayersAPI.update(editingPlayer.id, formData, token);
       } else {
-        await adminPlayersAPI.create(playerData, token);
+        await adminPlayersAPI.create(formData, token);
       }
 
       setShowForm(false);
       setEditingPlayer(null);
-      setFormData({ name: '', region: 'NA', title: '', twitch: '', champions: '', record: '', points: 0 });
+      setFormData({ name: '', region: 'NA', twitch: '', twitter: '', record: '', points: 0 });
       fetchPlayers();
     } catch (error) {
       alert('Failed to save player: ' + (error instanceof Error ? error.message : 'Unknown error'));
@@ -65,9 +59,8 @@ export default function AdminPlayers() {
     setFormData({
       name: player.name,
       region: player.region,
-      title: player.title || '',
       twitch: player.twitch || '',
-      champions: player.champions?.join(', ') || '',
+      twitter: player.twitter || '',
       record: player.record || '',
       points: player.points || 0,
     });
@@ -91,7 +84,7 @@ export default function AdminPlayers() {
   const cancelForm = () => {
     setShowForm(false);
     setEditingPlayer(null);
-    setFormData({ name: '', region: 'NA', title: '', twitch: '', champions: '', record: '', points: 0 });
+    setFormData({ name: '', region: 'NA', twitch: '', twitter: '', record: '', points: 0 });
   };
 
   return (
@@ -149,17 +142,18 @@ export default function AdminPlayers() {
                     value={formData.twitch}
                     onChange={(e) => setFormData({ ...formData, twitch: e.target.value })}
                     className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                    placeholder="e.g., loltyler1"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Title</label>
+                  <label className="block text-sm font-bold text-gray-300 mb-2">X/Twitter Username</label>
                   <input
                     type="text"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    value={formData.twitter}
+                    onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
                     className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                    placeholder="e.g., Top Lane Specialist"
+                    placeholder="e.g., loltyler1"
                   />
                 </div>
 
@@ -183,17 +177,6 @@ export default function AdminPlayers() {
                     className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold text-gray-300 mb-2">Main Champions (comma separated)</label>
-                <input
-                  type="text"
-                  value={formData.champions}
-                  onChange={(e) => setFormData({ ...formData, champions: e.target.value })}
-                  className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                  placeholder="e.g., Darius, Renekton, Mordekaiser"
-                />
               </div>
 
               <div className="flex gap-4">
