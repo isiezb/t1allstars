@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: t1allstars-frontend
+    runtime: node
+    region: frankfurt
+    buildCommand: cd tyler1-allstars && npm install && npm run build
+    startCommand: cd tyler1-allstars && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        value: https://t1allstarsbackend.onrender.com/api
