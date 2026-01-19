@@ -1,0 +1,283 @@
+'use client';
+
+import AdminLayout from '@/components/admin/AdminLayout';
+import { useEffect, useState } from 'react';
+import { tournamentsAPI, adminTournamentsAPI, Tournament } from '@/lib/api';
+
+export default function AdminTournaments() {
+  const [tournaments, setTournaments] = useState<Tournament[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [editingTournament, setEditingTournament] = useState<Tournament | null>(null);
+  const [formData, setFormData] = useState({
+    week: 1,
+    date: '',
+    region: 'NA' as 'NA' | 'EU' | 'KR',
+    status: 'upcoming' as 'complete' | 'live' | 'upcoming',
+    participants: '',
+  });
+
+  useEffect(() => {
+    fetchTournaments();
+  }, []);
+
+  const fetchTournaments = async () => {
+    try {
+      const data = await tournamentsAPI.getAll();
+      setTournaments(data);
+    } catch (error) {
+      console.error('Failed to fetch tournaments:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const token = localStorage.getItem('admin_token');
+    if (!token) return;
+
+    try {
+      const tournamentData = {
+        ...formData,
+        participants: formData.participants.split(',').map(p => p.trim()).filter(p => p),
+      };
+
+      if (editingTournament) {
+        await adminTournamentsAPI.update(editingTournament.id, tournamentData, token);
+      } else {
+        await adminTournamentsAPI.create(tournamentData, token);
+      }
+
+      setShowForm(false);
+      setEditingTournament(null);
+      setFormData({ week: 1, date: '', region: 'NA', status: 'upcoming', participants: '' });
+      fetchTournaments();
+    } catch (error) {
+      alert('Failed to save tournament: ' + (error instanceof Error ? error.message : 'Unknown error'));
+    }
+  };
+
+  const handleEdit = (tournament: Tournament) => {
+    setEditingTournament(tournament);
+    setFormData({
+      week: tournament.week,
+      date: tournament.date,
+      region: tournament.region,
+      status: tournament.status,
+      participants: tournament.participants.join(', '),
+    });
+    setShowForm(true);
+  };
+
+  const handleDelete = async (id: string, week: number) => {
+    if (!confirm(`Are you sure you want to delete Week ${week}?`)) return;
+
+    const token = localStorage.getItem('admin_token');
+    if (!token) return;
+
+    try {
+      await adminTournamentsAPI.delete(id, token);
+      fetchTournaments();
+    } catch (error) {
+      alert('Failed to delete tournament: ' + (error instanceof Error ? error.message : 'Unknown error'));
+    }
+  };
+
+  const cancelForm = () => {
+    setShowForm(false);
+    setEditingTournament(null);
+    setFormData({ week: 1, date: '', region: 'NA', status: 'upcoming', participants: '' });
+  };
+
+  const getStatusBadge = (status: string) => {
+    const styles = {
+      complete: 'bg-gray-700 text-gray-300',
+      live: 'bg-red-900/30 text-tyler1-red border border-tyler1-red',
+      upcoming: 'bg-green-900/30 text-green-400 border border-green-600',
+    };
+    return styles[status as keyof typeof styles] || styles.upcoming;
+  };
+
+  return (
+    <AdminLayout>
+      <div>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-white">
+            Tournaments <span className="text-tyler1-red">Management</span>
+          </h1>
+          <button
+            onClick={() => setShowForm(!showForm)}
+            className="bg-tyler1-red hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors"
+          >
+            {showForm ? 'Cancel' : '+ Add Tournament'}
+          </button>
+        </div>
+
+        {/* Add/Edit Form */}
+        {showForm && (
+          <div className="bg-tyler1-grey rounded-lg border border-tyler1-dark p-6 mb-8">
+            <h2 className="text-xl font-bold text-white mb-4">
+              {editingTournament ? 'Edit Tournament' : 'Add New Tournament'}
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-gray-300 mb-2">Week Number *</label>
+                  <input
+                    type="number"
+                    required
+                    min="1"
+                    value={formData.week}
+                    onChange={(e) => setFormData({ ...formData, week: Number(e.target.value) })}
+                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-300 mb-2">Date *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.date}
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                    placeholder="e.g., Feb 10, 2026"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-300 mb-2">Region *</label>
+                  <select
+                    required
+                    value={formData.region}
+                    onChange={(e) => setFormData({ ...formData, region: e.target.value as 'NA' | 'EU' | 'KR' })}
+                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                  >
+                    <option value="NA">NA</option>
+                    <option value="EU">EU</option>
+                    <option value="KR">KR</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-300 mb-2">Status *</label>
+                  <select
+                    required
+                    value={formData.status}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value as 'complete' | 'live' | 'upcoming' })}
+                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                  >
+                    <option value="upcoming">Upcoming</option>
+                    <option value="live">Live</option>
+                    <option value="complete">Complete</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-300 mb-2">Participants (comma separated)</label>
+                <input
+                  type="text"
+                  value={formData.participants}
+                  onChange={(e) => setFormData({ ...formData, participants: e.target.value })}
+                  className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
+                  placeholder="e.g., Humzh, TFBlade, Solarbacca, Adrian"
+                />
+              </div>
+
+              <div className="flex gap-4">
+                <button
+                  type="submit"
+                  className="bg-tyler1-red hover:bg-red-700 text-white font-bold py-2 px-6 rounded transition-colors"
+                >
+                  {editingTournament ? 'Update Tournament' : 'Create Tournament'}
+                </button>
+                <button
+                  type="button"
+                  onClick={cancelForm}
+                  className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* Tournaments List */}
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-gray-400">Loading tournaments...</p>
+          </div>
+        ) : tournaments.length === 0 ? (
+          <div className="text-center py-12 bg-tyler1-grey rounded-lg">
+            <p className="text-gray-400 text-lg mb-4">No tournaments yet</p>
+            <button
+              onClick={() => setShowForm(true)}
+              className="bg-tyler1-red hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors"
+            >
+              Add Your First Tournament
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {tournaments.map((tournament) => (
+              <div
+                key={tournament.id}
+                className="bg-tyler1-grey rounded-lg border border-tyler1-dark p-6 hover:border-tyler1-red transition-colors"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white mb-1">Week {tournament.week}</h3>
+                    <p className="text-sm text-gray-400">{tournament.date}</p>
+                    <p className="text-lg font-bold text-white mt-1">{tournament.region}</p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <button
+                      onClick={() => handleEdit(tournament)}
+                      className="text-blue-400 hover:text-blue-300 text-sm font-bold"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(tournament.id, tournament.week)}
+                      className="text-red-400 hover:text-red-300 text-sm font-bold"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+
+                <div className={`inline-block px-3 py-1 rounded text-xs font-bold mb-4 ${getStatusBadge(tournament.status)}`}>
+                  {tournament.status.toUpperCase()}
+                </div>
+
+                {tournament.participants.length > 0 && (
+                  <div>
+                    <p className="text-gray-400 text-xs mb-2">{tournament.participants.length} Participants:</p>
+                    <div className="flex flex-wrap gap-1">
+                      {tournament.participants.slice(0, 4).map((participant, idx) => (
+                        <span
+                          key={idx}
+                          className="bg-tyler1-dark text-xs px-2 py-1 rounded text-white"
+                        >
+                          {participant}
+                        </span>
+                      ))}
+                      {tournament.participants.length > 4 && (
+                        <span className="bg-tyler1-dark text-xs px-2 py-1 rounded text-gray-400">
+                          +{tournament.participants.length - 4}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </AdminLayout>
+  );
+}

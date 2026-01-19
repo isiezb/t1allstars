@@ -97,3 +97,78 @@ export const standingsAPI = {
 export const resultsAPI = {
   getAll: () => fetchAPI<Result[]>('/results'),
 };
+
+// Admin API calls (requires authentication token)
+async function fetchAdminAPI<T>(
+  endpoint: string,
+  options?: RequestInit,
+  token?: string
+): Promise<T> {
+  const url = `${API_URL}${endpoint}`;
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options?.headers,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `API Error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Failed to fetch ${endpoint}:`, error);
+    throw error;
+  }
+}
+
+export const authAPI = {
+  login: (username: string, password: string) =>
+    fetchAPI<{ token: string }>('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+    }),
+};
+
+export const adminPlayersAPI = {
+  create: (player: Omit<Player, 'id' | 'created_at' | 'updated_at'>, token: string) =>
+    fetchAdminAPI<Player>('/players', { method: 'POST', body: JSON.stringify(player) }, token),
+  update: (id: string, player: Partial<Player>, token: string) =>
+    fetchAdminAPI<Player>(`/players/${id}`, { method: 'PUT', body: JSON.stringify(player) }, token),
+  delete: (id: string, token: string) =>
+    fetchAdminAPI<{ message: string }>(`/players/${id}`, { method: 'DELETE' }, token),
+};
+
+export const adminTournamentsAPI = {
+  create: (tournament: Omit<Tournament, 'id' | 'created_at' | 'updated_at'>, token: string) =>
+    fetchAdminAPI<Tournament>('/tournaments', { method: 'POST', body: JSON.stringify(tournament) }, token),
+  update: (id: string, tournament: Partial<Tournament>, token: string) =>
+    fetchAdminAPI<Tournament>(`/tournaments/${id}`, { method: 'PUT', body: JSON.stringify(tournament) }, token),
+  delete: (id: string, token: string) =>
+    fetchAdminAPI<{ message: string }>(`/tournaments/${id}`, { method: 'DELETE' }, token),
+};
+
+export const adminStandingsAPI = {
+  create: (standing: Omit<Standing, 'id' | 'created_at' | 'updated_at'>, token: string) =>
+    fetchAdminAPI<Standing>('/standings', { method: 'POST', body: JSON.stringify(standing) }, token),
+  update: (id: string, standing: Partial<Standing>, token: string) =>
+    fetchAdminAPI<Standing>(`/standings/${id}`, { method: 'PUT', body: JSON.stringify(standing) }, token),
+  delete: (id: string, token: string) =>
+    fetchAdminAPI<{ message: string }>(`/standings/${id}`, { method: 'DELETE' }, token),
+};
+
+export const adminResultsAPI = {
+  create: (result: Omit<Result, 'id' | 'created_at' | 'updated_at'>, token: string) =>
+    fetchAdminAPI<Result>('/results', { method: 'POST', body: JSON.stringify(result) }, token),
+  update: (id: string, result: Partial<Result>, token: string) =>
+    fetchAdminAPI<Result>(`/results/${id}`, { method: 'PUT', body: JSON.stringify(result) }, token),
+  delete: (id: string, token: string) =>
+    fetchAdminAPI<{ message: string }>(`/results/${id}`, { method: 'DELETE' }, token),
+};
