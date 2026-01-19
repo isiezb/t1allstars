@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { tournamentsAPI, Tournament } from "@/lib/api";
+import LocalDateTime from "./LocalDateTime";
 
 const getStatusStyles = (status: string) => {
   switch (status) {
@@ -77,7 +78,9 @@ export default async function ScheduleSection() {
                 <h3 className="text-2xl font-bold text-white mb-1">
                   Week {item.week}
                 </h3>
-                <p className="text-sm text-gray-400">{item.date}</p>
+                <p className="text-sm text-gray-400">
+                  <LocalDateTime dateString={item.date} showTime={true} />
+                </p>
               </div>
               <div className="text-right">
                 <div className="text-3xl mb-1">{getRegionFlag(item.region)}</div>
