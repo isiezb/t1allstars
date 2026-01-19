@@ -247,6 +247,11 @@ export default function AdminPlayers() {
                       <span className="text-gray-400">Twitch:</span> {player.twitch}
                     </p>
                   )}
+                  {player.twitter && (
+                    <p className="text-gray-300">
+                      <span className="text-gray-400">Twitter:</span> {player.twitter}
+                    </p>
+                  )}
                   {player.record && (
                     <p className="text-gray-300">
                       <span className="text-gray-400">Record:</span> {player.record}
@@ -256,21 +261,6 @@ export default function AdminPlayers() {
                     <p className="text-gray-300">
                       <span className="text-gray-400">Points:</span> {player.points}
                     </p>
-                  )}
-                  {player.champions && player.champions.length > 0 && (
-                    <div>
-                      <p className="text-gray-400 mb-1">Champions:</p>
-                      <div className="flex flex-wrap gap-1">
-                        {player.champions.map((champ, idx) => (
-                          <span
-                            key={idx}
-                            className="bg-tyler1-dark text-xs px-2 py-1 rounded text-white"
-                          >
-                            {champ}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
                   )}
                 </div>
               </div>
