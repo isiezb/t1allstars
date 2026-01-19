@@ -15,7 +15,6 @@ export default function AdminPlayers() {
     twitch: '',
     twitter: '',
     record: '',
-    points: 0,
   });
 
   useEffect(() => {
@@ -47,7 +46,7 @@ export default function AdminPlayers() {
 
       setShowForm(false);
       setEditingPlayer(null);
-      setFormData({ name: '', region: 'NA', twitch: '', twitter: '', record: '', points: 0 });
+      setFormData({ name: '', region: 'NA', twitch: '', twitter: '', record: '' });
       fetchPlayers();
     } catch (error) {
       alert('Failed to save player: ' + (error instanceof Error ? error.message : 'Unknown error'));
@@ -62,7 +61,6 @@ export default function AdminPlayers() {
       twitch: player.twitch || '',
       twitter: player.twitter || '',
       record: player.record || '',
-      points: player.points || 0,
     });
     setShowForm(true);
   };
@@ -84,7 +82,7 @@ export default function AdminPlayers() {
   const cancelForm = () => {
     setShowForm(false);
     setEditingPlayer(null);
-    setFormData({ name: '', region: 'NA', twitch: '', twitter: '', record: '', points: 0 });
+    setFormData({ name: '', region: 'NA', twitch: '', twitter: '', record: '' });
   };
 
   return (
@@ -167,16 +165,6 @@ export default function AdminPlayers() {
                     placeholder="e.g., 2-1"
                   />
                 </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Points</label>
-                  <input
-                    type="number"
-                    value={formData.points}
-                    onChange={(e) => setFormData({ ...formData, points: Number(e.target.value) })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                  />
-                </div>
               </div>
 
               <div className="flex gap-4">
@@ -255,11 +243,6 @@ export default function AdminPlayers() {
                   {player.record && (
                     <p className="text-gray-300">
                       <span className="text-gray-400">Record:</span> {player.record}
-                    </p>
-                  )}
-                  {player.points !== undefined && (
-                    <p className="text-gray-300">
-                      <span className="text-gray-400">Points:</span> {player.points}
                     </p>
                   )}
                 </div>
