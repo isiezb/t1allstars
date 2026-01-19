@@ -90,21 +90,15 @@ export default async function ScheduleSection() {
             {item.participants && item.participants.length > 0 && (
               <div className="mb-4">
                 <p className="text-xs text-gray-400 mb-2">Participants:</p>
-                <div className="flex flex-wrap gap-1">
-                  {item.participants.slice(0, 4).map((player, idx) => (
-                    <div
+                <div className="flex flex-wrap gap-2">
+                  {item.participants.map((player, idx) => (
+                    <span
                       key={idx}
-                      className="w-8 h-8 rounded-full bg-tyler1-dark border-2 border-tyler1-red flex items-center justify-center text-xs font-bold"
-                      title={player}
+                      className="px-2 py-1 bg-tyler1-dark border border-tyler1-red rounded text-xs font-bold text-white"
                     >
-                      {player.substring(0, 2).toUpperCase()}
-                    </div>
+                      {player}
+                    </span>
                   ))}
-                  {item.participants.length > 4 && (
-                    <div className="w-8 h-8 rounded-full bg-tyler1-dark border-2 border-gray-600 flex items-center justify-center text-xs text-gray-400">
-                      +{item.participants.length - 4}
-                    </div>
-                  )}
                 </div>
               </div>
             )}
