@@ -62,6 +62,9 @@ async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T> 
         'Content-Type': 'application/json',
         ...options?.headers,
       },
+      // Disable Next.js caching - always fetch fresh data
+      cache: 'no-store',
+      next: { revalidate: 0 },
     });
 
     if (!response.ok) {
