@@ -50,6 +50,13 @@ export interface Result {
   updated_at?: string;
 }
 
+export interface Rules {
+  id: string | null;
+  content: string;
+  created_at?: string;
+  updated_at?: string | null;
+}
+
 // Generic fetch function with error handling
 async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = `${API_URL}${endpoint}`;
@@ -98,6 +105,11 @@ export const standingsAPI = {
 // Results API calls
 export const resultsAPI = {
   getAll: () => fetchAPI<Result[]>('/results'),
+};
+
+// Rules API calls
+export const rulesAPI = {
+  get: () => fetchAPI<Rules>('/rules'),
 };
 
 // Admin API calls (requires authentication token)
@@ -173,4 +185,9 @@ export const adminResultsAPI = {
     fetchAdminAPI<Result>(`/results/${id}`, { method: 'PUT', body: JSON.stringify(result) }, token),
   delete: (id: string, token: string) =>
     fetchAdminAPI<{ message: string }>(`/results/${id}`, { method: 'DELETE' }, token),
+};
+
+export const adminRulesAPI = {
+  update: (content: string, token: string) =>
+    fetchAdminAPI<Rules>('/rules', { method: 'PUT', body: JSON.stringify({ content }) }, token),
 };

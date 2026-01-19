@@ -119,6 +119,12 @@ export default function AdminDashboard() {
                 >
                   + Add Result
                 </Link>
+                <Link
+                  href="/admin/rules"
+                  className="bg-tyler1-dark hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-lg transition-colors text-center"
+                >
+                  📝 Edit Rules
+                </Link>
               </div>
             </div>
 
