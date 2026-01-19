@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { authAPI } from '@/lib/api';
 
 export default function AdminLogin() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const response = await authAPI.login(username, password);
+      const response = await authAPI.login(email, password);
 
       // Store token in localStorage
       localStorage.setItem('admin_token', response.token);
@@ -50,17 +50,17 @@ export default function AdminLogin() {
             )}
 
             <div>
-              <label htmlFor="username" className="block text-sm font-bold text-gray-300 mb-2">
-                Username
+              <label htmlFor="email" className="block text-sm font-bold text-gray-300 mb-2">
+                Email
               </label>
               <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full px-4 py-3 bg-tyler1-dark border border-tyler1-grey rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-tyler1-red transition-colors"
-                placeholder="Enter your username"
+                placeholder="Enter your email"
               />
             </div>
 

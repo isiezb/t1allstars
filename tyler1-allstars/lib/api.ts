@@ -130,10 +130,10 @@ async function fetchAdminAPI<T>(
 }
 
 export const authAPI = {
-  login: (username: string, password: string) =>
+  login: (email: string, password: string) =>
     fetchAPI<{ token: string }>('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }),
     }),
 };
 
