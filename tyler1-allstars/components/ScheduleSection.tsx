@@ -119,12 +119,6 @@ export default async function ScheduleSection() {
               </Link>
             )}
 
-            {item.status === "upcoming" && (
-              <button className="w-full text-center bg-tyler1-grey hover:bg-gray-700 text-gray-400 font-bold py-2 px-4 rounded transition-colors duration-200">
-                Add to Calendar
-              </button>
-            )}
-
             {item.status === "complete" && (
               <Link
                 href={`/results/week-${item.week}`}
