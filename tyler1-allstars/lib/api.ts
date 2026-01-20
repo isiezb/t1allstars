@@ -28,7 +28,6 @@ export interface Standing {
   rank: number;
   name: string;
   region: 'NA' | 'EU' | 'KR';
-  points: number;
   tournaments: number;
   wins: number;
   prize: number;

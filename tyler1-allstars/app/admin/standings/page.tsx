@@ -13,7 +13,6 @@ export default function AdminStandings() {
     rank: 1,
     name: '',
     region: 'NA' as 'NA' | 'EU' | 'KR',
-    points: 0,
     tournaments: 0,
     wins: 0,
     prize: 0,
@@ -48,7 +47,7 @@ export default function AdminStandings() {
 
       setShowForm(false);
       setEditingStanding(null);
-      setFormData({ rank: 1, name: '', region: 'NA', points: 0, tournaments: 0, wins: 0, prize: 0 });
+      setFormData({ rank: 1, name: '', region: 'NA', tournaments: 0, wins: 0, prize: 0 });
       fetchStandings();
     } catch (error) {
       alert('Failed to save standing: ' + (error instanceof Error ? error.message : 'Unknown error'));
@@ -61,7 +60,6 @@ export default function AdminStandings() {
       rank: standing.rank,
       name: standing.name,
       region: standing.region,
-      points: standing.points,
       tournaments: standing.tournaments,
       wins: standing.wins,
       prize: standing.prize,
@@ -150,17 +148,6 @@ export default function AdminStandings() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Points</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={formData.points}
-                    onChange={(e) => setFormData({ ...formData, points: Number(e.target.value) })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                  />
-                </div>
-
-                <div>
                   <label className="block text-sm font-bold text-gray-300 mb-2">Tournaments</label>
                   <input
                     type="number"
@@ -236,7 +223,6 @@ export default function AdminStandings() {
                   <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Rank</th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Player</th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Region</th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Points</th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Tournaments</th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Wins</th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase">Prize</th>
@@ -256,9 +242,6 @@ export default function AdminStandings() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="text-white">{standing.region}</span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-tyler1-gold font-bold">{standing.points}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-white">{standing.tournaments}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
