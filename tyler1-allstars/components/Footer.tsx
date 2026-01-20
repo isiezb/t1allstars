@@ -18,11 +18,6 @@ export default function Footer() {
             <h3 className="text-lg font-bold text-white mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/about" className="text-gray-400 hover:text-white text-sm transition-colors">
-                  About Tyler1 All Stars
-                </Link>
-              </li>
-              <li>
                 <Link href="/rules" className="text-gray-400 hover:text-white text-sm transition-colors">
                   Rules & Format
                 </Link>
