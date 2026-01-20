@@ -9,7 +9,7 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold text-white mb-4">Tyler1 All Stars</h3>
             <p className="text-gray-400 text-sm">
-              Premier 1v1 League of Legends tournament featuring the best players from NA, EU, and KR.
+              1v1 League of Legends tournament featuring the best players from NA, EU, and KR.
             </p>
           </div>
 
