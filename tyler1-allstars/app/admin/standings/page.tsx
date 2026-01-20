@@ -84,7 +84,7 @@ export default function AdminStandings() {
   const cancelForm = () => {
     setShowForm(false);
     setEditingStanding(null);
-    setFormData({ rank: 1, name: '', region: 'NA', points: 0, tournaments: 0, wins: 0, prize: 0 });
+    setFormData({ rank: 1, name: '', region: 'NA', tournaments: 0, wins: 0, prize: 0 });
   };
 
   return (
