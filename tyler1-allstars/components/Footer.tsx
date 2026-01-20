@@ -68,7 +68,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://www.youtube.com/@Tyler1AllStars"
+                href="https://www.youtube.com/@TYLER1LOL"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-red-600 transition-colors"
