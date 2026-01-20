@@ -1,15 +1,7 @@
 import { tournamentsAPI } from "@/lib/api";
 import CountdownTimer from "./CountdownTimer";
 import LocalDateTime from "./LocalDateTime";
-
-const getRegionFlag = (region: string) => {
-  switch (region) {
-    case "NA": return "🇺🇸";
-    case "EU": return "🇪🇺";
-    case "KR": return "🇰🇷";
-    default: return "";
-  }
-};
+import { getRegionFlag } from "@/lib/regions";
 
 export default async function HeroSection() {
   let nextTournament = null;

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { tournamentsAPI, Tournament } from "@/lib/api";
 import LocalDateTime from "./LocalDateTime";
+import { getRegionFlag } from "@/lib/regions";
 
 const getStatusStyles = (status: string) => {
   switch (status) {
@@ -25,19 +26,6 @@ const getStatusBadge = (status: string) => {
       return <span className="text-xs">📅 UPCOMING</span>;
     default:
       return null;
-  }
-};
-
-const getRegionFlag = (region: string) => {
-  switch (region) {
-    case "NA":
-      return "🇺🇸";
-    case "EU":
-      return "🇪🇺";
-    case "KR":
-      return "🇰🇷";
-    default:
-      return "";
   }
 };
 

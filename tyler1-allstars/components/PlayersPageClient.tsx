@@ -2,21 +2,9 @@
 
 import { useState } from 'react';
 import { Player } from '@/lib/api';
+import { getRegionColor, getRegionFlag, Region as BaseRegion } from '@/lib/regions';
 
-const getRegionColor = (region: string) => {
-  switch (region) {
-    case "NA":
-      return "bg-blue-500/20 text-blue-400 border-blue-500";
-    case "EU":
-      return "bg-yellow-500/20 text-yellow-400 border-yellow-500";
-    case "KR":
-      return "bg-red-500/20 text-red-400 border-red-500";
-    default:
-      return "bg-gray-500/20 text-gray-400 border-gray-500";
-  }
-};
-
-type Region = 'ALL' | 'NA' | 'EU' | 'KR';
+type Region = 'ALL' | BaseRegion;
 
 export default function PlayersPageClient({ players }: { players: Player[] }) {
   const [selectedRegion, setSelectedRegion] = useState<Region>('ALL');
@@ -47,7 +35,7 @@ export default function PlayersPageClient({ players }: { players: Player[] }) {
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
-          🇺🇸 NA
+          {getRegionFlag('NA')} NA
         </button>
         <button
           onClick={() => setSelectedRegion('EU')}
@@ -57,7 +45,7 @@ export default function PlayersPageClient({ players }: { players: Player[] }) {
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
-          🇪🇺 EU
+          {getRegionFlag('EU')} EU
         </button>
         <button
           onClick={() => setSelectedRegion('KR')}
@@ -67,7 +55,7 @@ export default function PlayersPageClient({ players }: { players: Player[] }) {
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
-          🇰🇷 KR
+          {getRegionFlag('KR')} KR
         </button>
       </div>
 

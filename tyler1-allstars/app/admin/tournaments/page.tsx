@@ -3,6 +3,7 @@
 import AdminLayout from '@/components/admin/AdminLayout';
 import { useEffect, useState } from 'react';
 import { tournamentsAPI, adminTournamentsAPI, Tournament, playersAPI, Player } from '@/lib/api';
+import { getStatusBadge } from '@/lib/status';
 
 export default function AdminTournaments() {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
@@ -133,14 +134,6 @@ export default function AdminTournaments() {
     );
   };
 
-  const getStatusBadge = (status: string) => {
-    const styles = {
-      complete: 'bg-gray-700 text-gray-300',
-      live: 'bg-red-900/30 text-tyler1-red border border-tyler1-red',
-      upcoming: 'bg-green-900/30 text-green-400 border border-green-600',
-    };
-    return styles[status as keyof typeof styles] || styles.upcoming;
-  };
 
   return (
     <AdminLayout>

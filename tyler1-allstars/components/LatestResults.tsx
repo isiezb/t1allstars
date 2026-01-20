@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { resultsAPI, Result } from "@/lib/api";
+import { getRegionFlag } from "@/lib/regions";
 
 export default async function LatestResults() {
   let latestResult: Result | null = null;
@@ -29,14 +30,6 @@ export default async function LatestResults() {
     );
   }
 
-  const getRegionFlag = (region: string) => {
-    switch (region) {
-      case "NA": return "🇺🇸";
-      case "EU": return "🇪🇺";
-      case "KR": return "🇰🇷";
-      default: return "";
-    }
-  };
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

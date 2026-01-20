@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { standingsAPI, Standing } from "@/lib/api";
+import { getRegionTextColor } from "@/lib/regions";
 
 const getRankMedal = (rank: number) => {
   switch (rank) {
@@ -11,19 +12,6 @@ const getRankMedal = (rank: number) => {
       return "🥉";
     default:
       return rank;
-  }
-};
-
-const getRegionColor = (region: string) => {
-  switch (region) {
-    case "NA":
-      return "text-blue-400";
-    case "EU":
-      return "text-yellow-400";
-    case "KR":
-      return "text-red-400";
-    default:
-      return "text-gray-400";
   }
 };
 
@@ -99,7 +87,7 @@ export default async function StandingsSection() {
                   </Link>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`font-bold ${getRegionColor(player.region)}`}>
+                  <span className={`font-bold ${getRegionTextColor(player.region)}`}>
                     {player.region}
                   </span>
                 </td>
@@ -138,7 +126,7 @@ export default async function StandingsSection() {
                 >
                   {player.name}
                 </Link>
-                <div className={`text-sm font-bold ${getRegionColor(player.region)}`}>
+                <div className={`text-sm font-bold ${getRegionTextColor(player.region)}`}>
                   {player.region}
                 </div>
               </div>

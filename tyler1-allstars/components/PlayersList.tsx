@@ -1,17 +1,5 @@
 import { playersAPI, Player } from "@/lib/api";
-
-const getRegionColor = (region: string) => {
-  switch (region) {
-    case "NA":
-      return "bg-blue-500/20 text-blue-400 border-blue-500";
-    case "EU":
-      return "bg-yellow-500/20 text-yellow-400 border-yellow-500";
-    case "KR":
-      return "bg-red-500/20 text-red-400 border-red-500";
-    default:
-      return "bg-gray-500/20 text-gray-400 border-gray-500";
-  }
-};
+import { getRegionColor } from "@/lib/regions";
 
 export default async function PlayersList() {
   let players: Player[] = [];
