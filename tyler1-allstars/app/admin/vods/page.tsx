@@ -64,28 +64,22 @@ export default function AdminVODs() {
               {editingVOD ? 'Edit VOD' : 'Add New VOD'}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Title *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                    placeholder="e.g., Week 2 - EU All Stars"
-                  />
-                </div>
+              <div className="bg-blue-900/20 border border-blue-500 rounded-lg p-4 mb-4">
+                <p className="text-blue-400 text-sm">
+                  💡 <strong>Auto-fetch:</strong> Title, duration, and thumbnail will be automatically fetched from the video platform
+                </p>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Link (URL) *</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-bold text-gray-300 mb-2">Video Link (YouTube/Twitch) *</label>
                   <input
                     type="url"
                     required
                     value={formData.link}
                     onChange={(e) => setFormData({ ...formData, link: e.target.value })}
                     className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                    placeholder="https://twitch.tv/videos/..."
+                    placeholder="https://youtube.com/watch?v=... or https://twitch.tv/videos/..."
                   />
                 </div>
 
@@ -115,36 +109,14 @@ export default function AdminVODs() {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Duration</label>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-bold text-gray-300 mb-2">Title Override (optional)</label>
                   <input
                     type="text"
-                    value={formData.duration || ''}
-                    onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                    placeholder="e.g., 3:47:22"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Thumbnail URL</label>
-                  <input
-                    type="url"
-                    value={formData.thumbnail || ''}
-                    onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                    placeholder="https://..."
-                  />
-                </div>
-
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Description</label>
-                  <textarea
-                    value={formData.description || ''}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                    placeholder="Brief description of the VOD..."
-                    rows={3}
+                    placeholder="Leave empty to use video title"
                   />
                 </div>
               </div>
