@@ -75,7 +75,9 @@ export default async function ScheduleSection() {
               <div className="mb-4">
                 <p className="text-xs text-gray-400 mb-2">Participants:</p>
                 <div className="flex flex-wrap gap-2">
-                  {item.participants.map((player, idx) => (
+                  {Array.from(new Set(item.participants.map(p => p.toLowerCase())))
+                    .map(lowerName => item.participants.find(p => p.toLowerCase() === lowerName)!)
+                    .map((player, idx) => (
                     <span
                       key={idx}
                       className="px-2 py-1 bg-tyler1-dark border border-tyler1-red rounded text-xs font-bold text-white"
