@@ -16,21 +16,6 @@ export default function SchedulePage() {
       </div>
 
       <ScheduleSection />
-
-      <div className="mt-16 bg-tyler1-grey rounded-lg p-8 border border-tyler1-dark">
-        <h2 className="text-2xl font-bold text-white mb-4">Time Zone Information</h2>
-        <div className="space-y-3 text-gray-300">
-          <p>
-            <span className="font-bold text-white">NA Tournaments:</span> 8:00 PM EST / 5:00 PM PST
-          </p>
-          <p>
-            <span className="font-bold text-white">EU Tournaments:</span> 8:00 PM CET / 2:00 PM EST
-          </p>
-          <p>
-            <span className="font-bold text-white">KR Tournaments:</span> 8:00 PM KST / 6:00 AM EST
-          </p>
-        </div>
-      </div>
     </div>
   );
 }
