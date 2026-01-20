@@ -27,15 +27,6 @@ export default async function StandingsSection() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-white mb-4">
-          Hall of <span className="text-tyler1-red">Fame</span>
-        </h2>
-        <p className="text-gray-400">
-          All-Time Tournament Champions
-        </p>
-      </div>
-
       {standingsData.length === 0 ? (
         <div className="text-center py-12 bg-tyler1-grey rounded-lg">
           <p className="text-gray-400 text-lg">No standings data available yet. Check back soon!</p>

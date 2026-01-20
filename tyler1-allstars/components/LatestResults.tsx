@@ -17,12 +17,6 @@ export default async function LatestResults() {
   if (!latestResult) {
     return (
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Latest <span className="text-tyler1-red">Results</span>
-          </h2>
-          <p className="text-gray-400">Most recent tournament outcome</p>
-        </div>
         <div className="text-center py-12 bg-tyler1-grey rounded-lg">
           <p className="text-gray-400 text-lg">No results available yet. Check back after the first tournament!</p>
         </div>
@@ -33,13 +27,6 @@ export default async function LatestResults() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-white mb-4">
-          Latest <span className="text-tyler1-red">Results</span>
-        </h2>
-        <p className="text-gray-400">Most recent tournament outcome</p>
-      </div>
-
       <div className="max-w-4xl mx-auto">
         {/* Tournament Result Card */}
         <div className="bg-gradient-to-br from-tyler1-grey to-tyler1-dark rounded-lg border-2 border-tyler1-red p-8 mb-8">
