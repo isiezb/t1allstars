@@ -2,24 +2,26 @@
 
 import AdminLayout from '@/components/admin/AdminLayout';
 import { useEffect, useState } from 'react';
-import { tournamentsAPI, adminTournamentsAPI, Tournament } from '@/lib/api';
+import { tournamentsAPI, adminTournamentsAPI, Tournament, playersAPI, Player } from '@/lib/api';
 
 export default function AdminTournaments() {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingTournament, setEditingTournament] = useState<Tournament | null>(null);
+  const [selectedParticipants, setSelectedParticipants] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     week: 1,
     date: '',
     time: '',
     region: 'NA' as 'NA' | 'EU' | 'KR',
     status: 'upcoming' as 'complete' | 'live' | 'upcoming',
-    participants: '',
   });
 
   useEffect(() => {
     fetchTournaments();
+    fetchPlayers();
   }, []);
 
   const fetchTournaments = async () => {
@@ -30,6 +32,15 @@ export default function AdminTournaments() {
       console.error('Failed to fetch tournaments:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchPlayers = async () => {
+    try {
+      const data = await playersAPI.getAll();
+      setPlayers(data);
+    } catch (error) {
+      console.error('Failed to fetch players:', error);
     }
   };
 
@@ -52,7 +63,7 @@ export default function AdminTournaments() {
         date: utcDate.toISOString(),
         region: formData.region,
         status: formData.status,
-        participants: formData.participants.split(',').map(p => p.trim()).filter(p => p),
+        participants: selectedParticipants,
       };
 
       if (editingTournament) {
@@ -63,7 +74,8 @@ export default function AdminTournaments() {
 
       setShowForm(false);
       setEditingTournament(null);
-      setFormData({ week: 1, date: '', time: '', region: 'NA', status: 'upcoming', participants: '' });
+      setSelectedParticipants([]);
+      setFormData({ week: 1, date: '', time: '', region: 'NA', status: 'upcoming' });
       fetchTournaments();
     } catch (error) {
       alert('Failed to save tournament: ' + (error instanceof Error ? error.message : 'Unknown error'));
@@ -86,8 +98,8 @@ export default function AdminTournaments() {
       time: timeStr,
       region: tournament.region,
       status: tournament.status,
-      participants: tournament.participants.join(', '),
     });
+    setSelectedParticipants(tournament.participants);
     setShowForm(true);
   };
 
@@ -108,7 +120,16 @@ export default function AdminTournaments() {
   const cancelForm = () => {
     setShowForm(false);
     setEditingTournament(null);
-    setFormData({ week: 1, date: '', time: '', region: 'NA', status: 'upcoming', participants: '' });
+    setSelectedParticipants([]);
+    setFormData({ week: 1, date: '', time: '', region: 'NA', status: 'upcoming' });
+  };
+
+  const toggleParticipant = (playerName: string) => {
+    setSelectedParticipants(prev =>
+      prev.includes(playerName)
+        ? prev.filter(name => name !== playerName)
+        : [...prev, playerName]
+    );
   };
 
   const getStatusBadge = (status: string) => {
@@ -213,14 +234,32 @@ export default function AdminTournaments() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Participants (comma separated)</label>
-                  <input
-                    type="text"
-                    value={formData.participants}
-                    onChange={(e) => setFormData({ ...formData, participants: e.target.value })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                    placeholder="e.g., Humzh, TFBlade, Solarbacca, Adrian"
-                  />
+                  <label className="block text-sm font-bold text-gray-300 mb-2">
+                    Select Participants ({selectedParticipants.length} selected)
+                  </label>
+                  <div className="bg-tyler1-dark border border-tyler1-grey rounded p-4 max-h-64 overflow-y-auto">
+                    {players.length === 0 ? (
+                      <p className="text-gray-400 text-sm">No players available. Add players first.</p>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {players.map((player) => (
+                          <label
+                            key={player.name}
+                            className="flex items-center gap-2 cursor-pointer hover:bg-tyler1-grey p-2 rounded transition-colors"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selectedParticipants.includes(player.name)}
+                              onChange={() => toggleParticipant(player.name)}
+                              className="w-4 h-4 text-tyler1-red bg-tyler1-dark border-gray-600 rounded focus:ring-tyler1-red focus:ring-2"
+                            />
+                            <span className="text-white text-sm">{player.name}</span>
+                            <span className="text-xs text-gray-400">({player.region})</span>
+                          </label>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
