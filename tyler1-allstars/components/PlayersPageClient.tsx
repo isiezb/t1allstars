@@ -30,33 +30,36 @@ export default function PlayersPageClient({ players }: { players: Player[] }) {
         </button>
         <button
           onClick={() => setSelectedRegion('NA')}
-          className={`px-6 py-2 font-bold rounded transition-colors ${
+          className={`px-6 py-2 font-bold rounded transition-colors flex items-center gap-2 ${
             selectedRegion === 'NA'
               ? 'bg-tyler1-red text-white'
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
-          {getRegionFlag('NA')} NA
+          <img src={getRegionFlag('NA')} alt="NA flag" className="h-4 w-auto" />
+          NA
         </button>
         <button
           onClick={() => setSelectedRegion('EU')}
-          className={`px-6 py-2 font-bold rounded transition-colors ${
+          className={`px-6 py-2 font-bold rounded transition-colors flex items-center gap-2 ${
             selectedRegion === 'EU'
               ? 'bg-tyler1-red text-white'
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
-          {getRegionFlag('EU')} EU
+          <img src={getRegionFlag('EU')} alt="EU flag" className="h-4 w-auto" />
+          EU
         </button>
         <button
           onClick={() => setSelectedRegion('KR')}
-          className={`px-6 py-2 font-bold rounded transition-colors ${
+          className={`px-6 py-2 font-bold rounded transition-colors flex items-center gap-2 ${
             selectedRegion === 'KR'
               ? 'bg-tyler1-red text-white'
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
-          {getRegionFlag('KR')} KR
+          <img src={getRegionFlag('KR')} alt="KR flag" className="h-4 w-auto" />
+          KR
         </button>
       </div>
 

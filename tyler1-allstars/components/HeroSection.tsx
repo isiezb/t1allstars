@@ -49,8 +49,10 @@ export default async function HeroSection() {
           {nextTournament ? (
             <>
               <div className="mb-8">
-                <p className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                  NEXT TOURNAMENT: {getRegionFlag(nextTournament.region)} {nextTournament.region}
+                <p className="text-2xl sm:text-3xl font-bold text-white mb-2 flex items-center justify-center gap-3">
+                  <span>NEXT TOURNAMENT:</span>
+                  <img src={getRegionFlag(nextTournament.region)} alt={`${nextTournament.region} flag`} className="inline-block h-6 w-auto" />
+                  <span>{nextTournament.region}</span>
                 </p>
                 <p className="text-lg sm:text-xl text-gray-300">
                   <LocalDateTime dateString={nextTournament.date} showTime={true} />

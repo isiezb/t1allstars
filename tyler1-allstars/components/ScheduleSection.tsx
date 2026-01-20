@@ -64,7 +64,9 @@ export default async function ScheduleSection() {
                 </p>
               </div>
               <div className="text-right">
-                <div className="text-3xl mb-1">{getRegionFlag(item.region)}</div>
+                <div className="mb-1 flex justify-end">
+                  <img src={getRegionFlag(item.region)} alt={`${item.region} flag`} className="h-8 w-auto" />
+                </div>
                 <p className="text-lg font-bold text-white">{item.region}</p>
               </div>
             </div>

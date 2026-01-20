@@ -1,9 +1,9 @@
 export type Region = 'NA' | 'EU' | 'KR';
 
-export const REGION_FLAGS: Record<Region, string> = {
-  NA: '🇺🇸',
-  EU: '🇪🇺',
-  KR: '🇰🇷',
+export const REGION_FLAG_CODES: Record<Region, string> = {
+  NA: 'us',
+  EU: 'eu',
+  KR: 'kr',
 };
 
 export const REGION_COLORS: Record<Region, string> = {
@@ -13,7 +13,8 @@ export const REGION_COLORS: Record<Region, string> = {
 };
 
 export function getRegionFlag(region: string): string {
-  return REGION_FLAGS[region as Region] || '';
+  const code = REGION_FLAG_CODES[region as Region] || 'un';
+  return `https://flagcdn.com/w40/${code}.png`;
 }
 
 export function getRegionColor(region: string): string {

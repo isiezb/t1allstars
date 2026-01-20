@@ -45,7 +45,10 @@ export default async function LatestResults() {
                   <div>
                     <p className="text-sm text-gray-400 mb-1">Champion</p>
                     <p className="text-3xl font-bold text-white mb-1">{result.winner}</p>
-                    <p className="text-sm text-yellow-400">{getRegionFlag(result.region)} {result.region}</p>
+                    <p className="text-sm text-yellow-400 flex items-center gap-2">
+                      <img src={getRegionFlag(result.region)} alt={`${result.region} flag`} className="h-4 w-auto" />
+                      {result.region}
+                    </p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -62,7 +65,10 @@ export default async function LatestResults() {
                 <div>
                   <p className="text-sm text-gray-400 mb-1">Runner-up</p>
                   <p className="text-2xl font-bold text-white mb-1">{result.runner_up}</p>
-                  <p className="text-sm text-yellow-400">{getRegionFlag(result.region)} {result.region}</p>
+                  <p className="text-sm text-yellow-400 flex items-center gap-2">
+                    <img src={getRegionFlag(result.region)} alt={`${result.region} flag`} className="h-4 w-auto" />
+                    {result.region}
+                  </p>
                 </div>
               </div>
             </div>
