@@ -104,18 +104,6 @@ export default async function FeaturedPlayers() {
                 </div>
               </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                <div className="bg-tyler1-dark rounded p-2 text-center">
-                  <p className="text-xs text-gray-400">Record</p>
-                  <p className="text-lg font-bold text-white">{player.record || 'N/A'}</p>
-                </div>
-                <div className="bg-tyler1-dark rounded p-2 text-center">
-                  <p className="text-xs text-gray-400">Points</p>
-                  <p className="text-lg font-bold text-tyler1-gold">{player.points}</p>
-                </div>
-              </div>
-
               {/* CTA Button */}
               <Link
                 href={`/players/${player.name.toLowerCase()}`}
