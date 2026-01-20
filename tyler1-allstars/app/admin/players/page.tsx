@@ -1,87 +1,40 @@
 'use client';
 
 import AdminLayout from '@/components/admin/AdminLayout';
-import { useEffect, useState } from 'react';
 import { playersAPI, adminPlayersAPI, Player } from '@/lib/api';
+import { useAdminCRUD } from '@/hooks/useAdminCRUD';
+
+type PlayerFormData = {
+  name: string;
+  region: 'NA' | 'EU' | 'KR';
+  twitch: string;
+  twitter: string;
+};
 
 export default function AdminPlayers() {
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [editingPlayer, setEditingPlayer] = useState<Player | null>(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    region: 'NA' as 'NA' | 'EU' | 'KR',
-    twitch: '',
-    twitter: '',
+  const {
+    items: players,
+    loading,
+    showForm,
+    setShowForm,
+    editingItem: editingPlayer,
+    formData,
+    setFormData,
+    handleSubmit,
+    handleEdit,
+    handleDelete,
+    cancelForm,
+  } = useAdminCRUD<Player, PlayerFormData>({
+    fetchAPI: playersAPI,
+    adminAPI: adminPlayersAPI,
+    initialFormData: {
+      name: '',
+      region: 'NA',
+      twitch: '',
+      twitter: '',
+    },
+    entityName: 'player',
   });
-
-  useEffect(() => {
-    fetchPlayers();
-  }, []);
-
-  const fetchPlayers = async () => {
-    try {
-      const data = await playersAPI.getAll();
-      setPlayers(data);
-    } catch (error) {
-      console.error('Failed to fetch players:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const token = localStorage.getItem('admin_token');
-    if (!token) return;
-
-    try {
-      if (editingPlayer) {
-        await adminPlayersAPI.update(editingPlayer.id, formData, token);
-      } else {
-        await adminPlayersAPI.create(formData, token);
-      }
-
-      setShowForm(false);
-      setEditingPlayer(null);
-      setFormData({ name: '', region: 'NA', twitch: '', twitter: '' });
-      fetchPlayers();
-    } catch (error) {
-      alert('Failed to save player: ' + (error instanceof Error ? error.message : 'Unknown error'));
-    }
-  };
-
-  const handleEdit = (player: Player) => {
-    setEditingPlayer(player);
-    setFormData({
-      name: player.name,
-      region: player.region,
-      twitch: player.twitch || '',
-      twitter: player.twitter || '',
-    });
-    setShowForm(true);
-  };
-
-  const handleDelete = async (id: string, name: string) => {
-    if (!confirm(`Are you sure you want to delete ${name}?`)) return;
-
-    const token = localStorage.getItem('admin_token');
-    if (!token) return;
-
-    try {
-      await adminPlayersAPI.delete(id, token);
-      fetchPlayers();
-    } catch (error) {
-      alert('Failed to delete player: ' + (error instanceof Error ? error.message : 'Unknown error'));
-    }
-  };
-
-  const cancelForm = () => {
-    setShowForm(false);
-    setEditingPlayer(null);
-    setFormData({ name: '', region: 'NA', twitch: '', twitter: '' });
-  };
 
   return (
     <AdminLayout>

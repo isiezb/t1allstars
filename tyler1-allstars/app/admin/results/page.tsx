@@ -1,91 +1,44 @@
 'use client';
 
 import AdminLayout from '@/components/admin/AdminLayout';
-import { useEffect, useState } from 'react';
 import { resultsAPI, adminResultsAPI, Result } from '@/lib/api';
+import { useAdminCRUD } from '@/hooks/useAdminCRUD';
+
+type ResultFormData = {
+  tournament: string;
+  date: string;
+  winner: string;
+  runner_up: string;
+  region: 'NA' | 'EU' | 'KR';
+  prize_pool: number;
+};
 
 export default function AdminResults() {
-  const [results, setResults] = useState<Result[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [editingResult, setEditingResult] = useState<Result | null>(null);
-  const [formData, setFormData] = useState({
-    tournament: '',
-    date: '',
-    winner: '',
-    runner_up: '',
-    region: 'NA' as 'NA' | 'EU' | 'KR',
-    prize_pool: 0,
+  const {
+    items: results,
+    loading,
+    showForm,
+    setShowForm,
+    editingItem: editingResult,
+    formData,
+    setFormData,
+    handleSubmit,
+    handleEdit,
+    handleDelete,
+    cancelForm,
+  } = useAdminCRUD<Result, ResultFormData>({
+    fetchAPI: resultsAPI,
+    adminAPI: adminResultsAPI,
+    initialFormData: {
+      tournament: '',
+      date: '',
+      winner: '',
+      runner_up: '',
+      region: 'NA',
+      prize_pool: 0,
+    },
+    entityName: 'result',
   });
-
-  useEffect(() => {
-    fetchResults();
-  }, []);
-
-  const fetchResults = async () => {
-    try {
-      const data = await resultsAPI.getAll();
-      setResults(data);
-    } catch (error) {
-      console.error('Failed to fetch results:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const token = localStorage.getItem('admin_token');
-    if (!token) return;
-
-    try {
-      if (editingResult) {
-        await adminResultsAPI.update(editingResult.id, formData, token);
-      } else {
-        await adminResultsAPI.create(formData, token);
-      }
-
-      setShowForm(false);
-      setEditingResult(null);
-      setFormData({ tournament: '', date: '', winner: '', runner_up: '', region: 'NA', prize_pool: 0 });
-      fetchResults();
-    } catch (error) {
-      alert('Failed to save result: ' + (error instanceof Error ? error.message : 'Unknown error'));
-    }
-  };
-
-  const handleEdit = (result: Result) => {
-    setEditingResult(result);
-    setFormData({
-      tournament: result.tournament,
-      date: result.date,
-      winner: result.winner,
-      runner_up: result.runner_up,
-      region: result.region,
-      prize_pool: result.prize_pool,
-    });
-    setShowForm(true);
-  };
-
-  const handleDelete = async (id: string, tournament: string) => {
-    if (!confirm(`Are you sure you want to delete result for ${tournament}?`)) return;
-
-    const token = localStorage.getItem('admin_token');
-    if (!token) return;
-
-    try {
-      await adminResultsAPI.delete(id, token);
-      fetchResults();
-    } catch (error) {
-      alert('Failed to delete result: ' + (error instanceof Error ? error.message : 'Unknown error'));
-    }
-  };
-
-  const cancelForm = () => {
-    setShowForm(false);
-    setEditingResult(null);
-    setFormData({ tournament: '', date: '', winner: '', runner_up: '', region: 'NA', prize_pool: 0 });
-  };
 
   return (
     <AdminLayout>

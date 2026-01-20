@@ -1,91 +1,44 @@
 'use client';
 
 import AdminLayout from '@/components/admin/AdminLayout';
-import { useEffect, useState } from 'react';
 import { standingsAPI, adminStandingsAPI, Standing } from '@/lib/api';
+import { useAdminCRUD } from '@/hooks/useAdminCRUD';
+
+type StandingFormData = {
+  rank: number;
+  name: string;
+  region: 'NA' | 'EU' | 'KR';
+  tournaments: number;
+  wins: number;
+  prize: number;
+};
 
 export default function AdminStandings() {
-  const [standings, setStandings] = useState<Standing[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [editingStanding, setEditingStanding] = useState<Standing | null>(null);
-  const [formData, setFormData] = useState({
-    rank: 1,
-    name: '',
-    region: 'NA' as 'NA' | 'EU' | 'KR',
-    tournaments: 0,
-    wins: 0,
-    prize: 0,
+  const {
+    items: standings,
+    loading,
+    showForm,
+    setShowForm,
+    editingItem: editingStanding,
+    formData,
+    setFormData,
+    handleSubmit,
+    handleEdit,
+    handleDelete,
+    cancelForm,
+  } = useAdminCRUD<Standing, StandingFormData>({
+    fetchAPI: standingsAPI,
+    adminAPI: adminStandingsAPI,
+    initialFormData: {
+      rank: 1,
+      name: '',
+      region: 'NA',
+      tournaments: 0,
+      wins: 0,
+      prize: 0,
+    },
+    entityName: 'standing',
   });
-
-  useEffect(() => {
-    fetchStandings();
-  }, []);
-
-  const fetchStandings = async () => {
-    try {
-      const data = await standingsAPI.getAll();
-      setStandings(data);
-    } catch (error) {
-      console.error('Failed to fetch standings:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const token = localStorage.getItem('admin_token');
-    if (!token) return;
-
-    try {
-      if (editingStanding) {
-        await adminStandingsAPI.update(editingStanding.id, formData, token);
-      } else {
-        await adminStandingsAPI.create(formData, token);
-      }
-
-      setShowForm(false);
-      setEditingStanding(null);
-      setFormData({ rank: 1, name: '', region: 'NA', tournaments: 0, wins: 0, prize: 0 });
-      fetchStandings();
-    } catch (error) {
-      alert('Failed to save standing: ' + (error instanceof Error ? error.message : 'Unknown error'));
-    }
-  };
-
-  const handleEdit = (standing: Standing) => {
-    setEditingStanding(standing);
-    setFormData({
-      rank: standing.rank,
-      name: standing.name,
-      region: standing.region,
-      tournaments: standing.tournaments,
-      wins: standing.wins,
-      prize: standing.prize,
-    });
-    setShowForm(true);
-  };
-
-  const handleDelete = async (id: string, name: string) => {
-    if (!confirm(`Are you sure you want to delete ${name} from standings?`)) return;
-
-    const token = localStorage.getItem('admin_token');
-    if (!token) return;
-
-    try {
-      await adminStandingsAPI.delete(id, token);
-      fetchStandings();
-    } catch (error) {
-      alert('Failed to delete standing: ' + (error instanceof Error ? error.message : 'Unknown error'));
-    }
-  };
-
-  const cancelForm = () => {
-    setShowForm(false);
-    setEditingStanding(null);
-    setFormData({ rank: 1, name: '', region: 'NA', tournaments: 0, wins: 0, prize: 0 });
-  };
 
   return (
     <AdminLayout>
