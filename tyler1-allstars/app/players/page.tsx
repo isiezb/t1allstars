@@ -1,11 +1,11 @@
 import PlayersPageClient from "@/components/PlayersPageClient";
-import { playersAPI } from "@/lib/api";
+import { playersAPI, Player } from "@/lib/api";
 
 // Revalidate data every 30 seconds
 export const revalidate = 30;
 
 export default async function PlayersPage() {
-  let players = [];
+  let players: Player[] = [];
 
   try {
     players = await playersAPI.getAll();
