@@ -162,15 +162,6 @@ export default async function StandingsSection() {
           </div>
         ))}
       </div>
-
-      <div className="text-center mt-8">
-        <Link
-          href="/standings"
-          className="inline-block text-tyler1-red hover:text-red-500 font-bold transition-colors duration-200"
-        >
-          View Full Hall of Fame →
-        </Link>
-      </div>
         </>
       )}
     </section>
