@@ -1,4 +1,4 @@
-import FeaturedPlayers from "@/components/FeaturedPlayers";
+import PlayersList from "@/components/PlayersList";
 
 // Revalidate data every 30 seconds
 export const revalidate = 30;
@@ -13,30 +13,9 @@ export default function PlayersPage() {
         <p className="text-xl text-gray-400 mb-8">
           Complete roster of Tyler1 All Stars participants
         </p>
-
-        {/* Region Filter */}
-        <div className="flex justify-center gap-4 flex-wrap">
-          <button className="px-6 py-2 bg-tyler1-red text-white font-bold rounded hover:bg-red-700 transition-colors">
-            All Regions
-          </button>
-          <button className="px-6 py-2 bg-tyler1-grey text-gray-300 font-bold rounded hover:bg-gray-700 transition-colors">
-            🇺🇸 NA
-          </button>
-          <button className="px-6 py-2 bg-tyler1-grey text-gray-300 font-bold rounded hover:bg-gray-700 transition-colors">
-            🇪🇺 EU
-          </button>
-          <button className="px-6 py-2 bg-tyler1-grey text-gray-300 font-bold rounded hover:bg-gray-700 transition-colors">
-            🇰🇷 KR
-          </button>
-        </div>
       </div>
 
-      <FeaturedPlayers />
-
-      {/* Additional players would be listed here */}
-      <div className="mt-12 text-center">
-        <p className="text-gray-400">More players coming soon...</p>
-      </div>
+      <PlayersList />
     </div>
   );
 }
