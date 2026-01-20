@@ -138,7 +138,7 @@ export default function VODsPage() {
               Best moments from EU All Stars tournament
             </p>
             <a
-              href="https://youtube.com/@loltyler1"
+              href="https://www.youtube.com/@Tyler1AllStars"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-red-500 hover:text-red-400 text-sm font-bold"

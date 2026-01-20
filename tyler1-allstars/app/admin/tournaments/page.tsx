@@ -18,6 +18,7 @@ export default function AdminTournaments() {
     region: 'NA' as 'NA' | 'EU' | 'KR',
     status: 'upcoming' as 'complete' | 'live' | 'upcoming',
   });
+  const [showAllRegions, setShowAllRegions] = useState(false);
 
   useEffect(() => {
     fetchTournaments();
@@ -234,29 +235,69 @@ export default function AdminTournaments() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">
-                    Select Participants ({selectedParticipants.length} selected)
-                  </label>
+                  <div className="flex justify-between items-end mb-2">
+                    <label className="block text-sm font-bold text-gray-300">
+                      Select Participants ({selectedParticipants.length} selected)
+                    </label>
+                    <label className="flex items-center gap-2 text-xs text-gray-400 cursor-pointer hover:text-white transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={showAllRegions}
+                        onChange={(e) => setShowAllRegions(e.target.checked)}
+                        className="w-3 h-3 rounded"
+                      />
+                      Show All Regions
+                    </label>
+                  </div>
+                  
+                  {selectedParticipants.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-3 p-2 bg-tyler1-dark/50 rounded border border-tyler1-grey/50">
+                      {selectedParticipants.map(name => (
+                        <button
+                          key={name}
+                          type="button"
+                          onClick={() => toggleParticipant(name)}
+                          className="bg-tyler1-red/20 text-tyler1-red border border-tyler1-red px-2 py-1 rounded text-xs flex items-center gap-1 hover:bg-tyler1-red hover:text-white transition-colors"
+                        >
+                          {name} <span>×</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
                   <div className="bg-tyler1-dark border border-tyler1-grey rounded p-4 max-h-64 overflow-y-auto">
                     {players.length === 0 ? (
                       <p className="text-gray-400 text-sm">No players available. Add players first.</p>
                     ) : (
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {players.map((player) => (
-                          <label
-                            key={player.name}
-                            className="flex items-center gap-2 cursor-pointer hover:bg-tyler1-grey p-2 rounded transition-colors"
-                          >
-                            <input
-                              type="checkbox"
-                              checked={selectedParticipants.includes(player.name)}
-                              onChange={() => toggleParticipant(player.name)}
-                              className="w-4 h-4 text-tyler1-red bg-tyler1-dark border-gray-600 rounded focus:ring-tyler1-red focus:ring-2"
-                            />
-                            <span className="text-white text-sm">{player.name}</span>
-                            <span className="text-xs text-gray-400">({player.region})</span>
-                          </label>
-                        ))}
+                        {players
+                          .filter(p => showAllRegions || p.region === formData.region || selectedParticipants.includes(p.name))
+                          .sort((a, b) => {
+                            const aSelected = selectedParticipants.includes(a.name);
+                            const bSelected = selectedParticipants.includes(b.name);
+                            if (aSelected && !bSelected) return -1;
+                            if (!aSelected && bSelected) return 1;
+                            return a.name.localeCompare(b.name);
+                          })
+                          .map((player) => (
+                            <label
+                              key={player.name}
+                              className={`flex items-center gap-2 cursor-pointer p-2 rounded transition-colors ${
+                                selectedParticipants.includes(player.name) 
+                                  ? 'bg-tyler1-red/10 border border-tyler1-red/30' 
+                                  : 'hover:bg-tyler1-grey'
+                              }`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={selectedParticipants.includes(player.name)}
+                                onChange={() => toggleParticipant(player.name)}
+                                className="w-4 h-4 text-tyler1-red bg-tyler1-dark border-gray-600 rounded focus:ring-tyler1-red focus:ring-2"
+                              />
+                              <span className="text-white text-sm">{player.name}</span>
+                              <span className="text-xs text-gray-400">({player.region})</span>
+                            </label>
+                          ))}
                       </div>
                     )}
                   </div>
