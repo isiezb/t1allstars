@@ -128,15 +128,6 @@ export default async function ScheduleSection() {
         ))}
         </div>
       )}
-
-      <div className="text-center mt-8">
-        <Link
-          href="/schedule"
-          className="inline-block text-tyler1-red hover:text-red-500 font-bold transition-colors duration-200"
-        >
-          View Full Schedule →
-        </Link>
-      </div>
     </section>
   );
 }
