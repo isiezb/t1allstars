@@ -44,7 +44,7 @@ export default async function StandingsSection() {
           Hall of <span className="text-tyler1-red">Fame</span>
         </h2>
         <p className="text-gray-400">
-          Season 1 Winter 2026 Champions
+          All-Time Tournament Champions
         </p>
       </div>
 
