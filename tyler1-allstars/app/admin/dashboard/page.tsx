@@ -16,27 +16,29 @@ interface Stats {
 export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats>({ players: 0, tournaments: 0, standings: 0, results: 0, vods: 0 });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const [players, tournaments, standings, results, vods] = await Promise.all([
-          playersAPI.getAll(),
-          tournamentsAPI.getAll(),
-          standingsAPI.getAll(),
-          resultsAPI.getAll(),
-          vodsAPI.getAll(),
+          playersAPI.getAll().catch(err => { console.error('Players API error:', err); return []; }),
+          tournamentsAPI.getAll().catch(err => { console.error('Tournaments API error:', err); return []; }),
+          standingsAPI.getAll().catch(err => { console.error('Standings API error:', err); return []; }),
+          resultsAPI.getAll().catch(err => { console.error('Results API error:', err); return []; }),
+          vodsAPI.getAll().catch(err => { console.error('VODs API error:', err); return []; }),
         ]);
 
         setStats({
-          players: players.length,
-          tournaments: tournaments.length,
-          standings: standings.length,
-          results: results.length,
-          vods: vods.length,
+          players: players?.length || 0,
+          tournaments: tournaments?.length || 0,
+          standings: standings?.length || 0,
+          results: results?.length || 0,
+          vods: vods?.length || 0,
         });
       } catch (error) {
         console.error('Failed to fetch stats:', error);
+        setError(error instanceof Error ? error.message : 'Failed to load statistics');
       } finally {
         setLoading(false);
       }
@@ -70,6 +72,13 @@ export default function AdminDashboard() {
         <h1 className="text-3xl font-bold text-white mb-8">
           Dashboard <span className="text-tyler1-red">Overview</span>
         </h1>
+
+        {error && (
+          <div className="mb-6 bg-red-900/30 border border-red-500 rounded-lg p-4">
+            <p className="text-red-400 text-sm">⚠️ {error}</p>
+            <p className="text-gray-400 text-xs mt-1">Check browser console for details</p>
+          </div>
+        )}
 
         {loading ? (
           <div className="text-center py-12">
