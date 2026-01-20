@@ -105,7 +105,7 @@ export default function AdminTournaments() {
     setShowForm(true);
   };
 
-  const handleDelete = async (id: string, week: number) => {
+  const handleDelete = async (id: string | number, week: number) => {
     if (!confirm(`Are you sure you want to delete Week ${week}?`)) return;
 
     const token = localStorage.getItem('admin_token');
