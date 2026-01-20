@@ -1,6 +1,5 @@
 import HeroSection from "@/components/HeroSection";
 import ScheduleSection from "@/components/ScheduleSection";
-import StandingsSection from "@/components/StandingsSection";
 import LatestResults from "@/components/LatestResults";
 
 // Revalidate data every 30 seconds
@@ -11,7 +10,6 @@ export default function Home() {
     <>
       <HeroSection />
       <ScheduleSection />
-      <StandingsSection />
       <LatestResults />
     </>
   );
