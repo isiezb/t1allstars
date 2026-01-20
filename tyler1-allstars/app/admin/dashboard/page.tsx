@@ -3,27 +3,29 @@
 import AdminLayout from '@/components/admin/AdminLayout';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { playersAPI, tournamentsAPI, standingsAPI, resultsAPI } from '@/lib/api';
+import { playersAPI, tournamentsAPI, standingsAPI, resultsAPI, vodsAPI } from '@/lib/api';
 
 interface Stats {
   players: number;
   tournaments: number;
   standings: number;
   results: number;
+  vods: number;
 }
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState<Stats>({ players: 0, tournaments: 0, standings: 0, results: 0 });
+  const [stats, setStats] = useState<Stats>({ players: 0, tournaments: 0, standings: 0, results: 0, vods: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [players, tournaments, standings, results] = await Promise.all([
+        const [players, tournaments, standings, results, vods] = await Promise.all([
           playersAPI.getAll(),
           tournamentsAPI.getAll(),
           standingsAPI.getAll(),
           resultsAPI.getAll(),
+          vodsAPI.getAll(),
         ]);
 
         setStats({
@@ -31,6 +33,7 @@ export default function AdminDashboard() {
           tournaments: tournaments.length,
           standings: standings.length,
           results: results.length,
+          vods: vods.length,
         });
       } catch (error) {
         console.error('Failed to fetch stats:', error);
@@ -47,6 +50,7 @@ export default function AdminDashboard() {
     { label: 'Tournaments', value: stats.tournaments, icon: '🏆', color: 'yellow', href: '/admin/tournaments' },
     { label: 'Hall of Fame Entries', value: stats.standings, icon: '📈', color: 'green', href: '/admin/standings' },
     { label: 'Results', value: stats.results, icon: '🎯', color: 'red', href: '/admin/results' },
+    { label: 'VODs', value: stats.vods, icon: '📺', color: 'purple', href: '/admin/vods' },
   ];
 
   const getColorClasses = (color: string) => {
@@ -55,6 +59,7 @@ export default function AdminDashboard() {
       yellow: 'border-yellow-500 bg-yellow-500/10',
       green: 'border-green-500 bg-green-500/10',
       red: 'border-tyler1-red bg-tyler1-red/10',
+      purple: 'border-purple-500 bg-purple-500/10',
     };
     return colors[color] || colors.red;
   };
@@ -94,7 +99,7 @@ export default function AdminDashboard() {
             {/* Quick Actions */}
             <div className="bg-tyler1-grey rounded-lg border border-tyler1-dark p-6">
               <h2 className="text-xl font-bold text-white mb-4">Quick Actions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <Link
                   href="/admin/players"
                   className="bg-tyler1-dark hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-lg transition-colors text-center"
@@ -118,6 +123,12 @@ export default function AdminDashboard() {
                   className="bg-tyler1-dark hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-lg transition-colors text-center"
                 >
                   + Add Result
+                </Link>
+                <Link
+                  href="/admin/vods"
+                  className="bg-tyler1-dark hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-lg transition-colors text-center"
+                >
+                  + Add VOD
                 </Link>
                 <Link
                   href="/admin/rules"

@@ -54,6 +54,19 @@ export interface Rules {
   updated_at?: string | null;
 }
 
+export interface VOD {
+  id: number;
+  title: string;
+  link: string;
+  type: 'Full Stream' | 'Highlight' | 'POV Stream';
+  date: string;
+  duration?: string;
+  description?: string;
+  thumbnail?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
 // Generic fetch function with error handling
 async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = `${API_URL}${endpoint}`;
@@ -107,6 +120,12 @@ export const resultsAPI = {
 // Rules API calls
 export const rulesAPI = {
   get: () => fetchAPI<Rules>('/rules'),
+};
+
+// VOD API calls
+export const vodsAPI = {
+  getAll: () => fetchAPI<VOD[]>('/vods'),
+  getByType: (type: string) => fetchAPI<VOD[]>(`/vods?type=${type}`),
 };
 
 // Admin API calls (requires authentication token)
@@ -187,4 +206,13 @@ export const adminResultsAPI = {
 export const adminRulesAPI = {
   update: (content: string, token: string) =>
     fetchAdminAPI<Rules>('/rules', { method: 'PUT', body: JSON.stringify({ content }) }, token),
+};
+
+export const adminVODsAPI = {
+  create: (vod: Omit<VOD, 'id' | 'created_at' | 'updated_at'>, token: string) =>
+    fetchAdminAPI<VOD>('/vods', { method: 'POST', body: JSON.stringify(vod) }, token),
+  update: (id: string | number, vod: Partial<VOD>, token: string) =>
+    fetchAdminAPI<VOD>(`/vods/${id}`, { method: 'PUT', body: JSON.stringify(vod) }, token),
+  delete: (id: string | number, token: string) =>
+    fetchAdminAPI<{ message: string }>(`/vods/${id}`, { method: 'DELETE' }, token),
 };
