@@ -6,14 +6,14 @@ interface AdminCRUDConfig<T, FormData> {
   };
   adminAPI: {
     create: (data: FormData, token: string) => Promise<T>;
-    update: (id: string, data: FormData, token: string) => Promise<T>;
-    delete: (id: string, token: string) => Promise<any>;
+    update: (id: string | number, data: FormData, token: string) => Promise<T>;
+    delete: (id: string | number, token: string) => Promise<any>;
   };
   initialFormData: FormData;
   entityName: string; // e.g., "player", "tournament", "standing"
 }
 
-export function useAdminCRUD<T extends { id: string }, FormData>({
+export function useAdminCRUD<T extends { id: string | number }, FormData>({
   fetchAPI,
   adminAPI,
   initialFormData,
@@ -76,7 +76,7 @@ export function useAdminCRUD<T extends { id: string }, FormData>({
     setShowForm(true);
   };
 
-  const handleDelete = async (id: string, displayName: string) => {
+  const handleDelete = async (id: string | number, displayName: string) => {
     if (!confirm(`Are you sure you want to delete ${displayName}?`)) return;
 
     const token = localStorage.getItem('admin_token');
