@@ -7,7 +7,7 @@ interface AdminCRUDConfig<T, FormData> {
   adminAPI: {
     create: (data: FormData, token: string) => Promise<T>;
     update: (id: string, data: FormData, token: string) => Promise<T>;
-    delete: (id: string, token: string) => Promise<void>;
+    delete: (id: string, token: string) => Promise<any>;
   };
   initialFormData: FormData;
   entityName: string; // e.g., "player", "tournament", "standing"
