@@ -66,12 +66,12 @@ export default function AdminVODs() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="bg-blue-900/20 border border-blue-500 rounded-lg p-4 mb-4">
                 <p className="text-blue-400 text-sm">
-                  💡 <strong>Auto-fetch:</strong> Title, duration, and thumbnail will be automatically fetched from the video platform
+                  💡 <strong>Auto-fetch:</strong> Title, date, duration, and thumbnail will be automatically fetched from the video
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="md:col-span-2">
+              <div className="space-y-4">
+                <div>
                   <label className="block text-sm font-bold text-gray-300 mb-2">Video Link (YouTube/Twitch) *</label>
                   <input
                     type="url"
@@ -95,29 +95,6 @@ export default function AdminVODs() {
                     <option value="Highlight">Highlight</option>
                     <option value="POV Stream">POV Stream</option>
                   </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Date *</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.date}
-                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                    placeholder="e.g., Feb 3, 2026"
-                  />
-                </div>
-
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-bold text-gray-300 mb-2">Title Override (optional)</label>
-                  <input
-                    type="text"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
-                    placeholder="Leave empty to use video title"
-                  />
                 </div>
               </div>
 
