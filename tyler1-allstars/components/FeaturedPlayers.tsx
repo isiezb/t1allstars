@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { playersAPI, Player } from "@/lib/api";
-import { getRegionColor } from "@/lib/regions";
+import PlayerCard from "@/components/cards/PlayerCard";
 
 export default async function FeaturedPlayers() {
   let featuredPlayers: Player[] = [];
@@ -30,77 +30,8 @@ export default async function FeaturedPlayers() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {featuredPlayers.map((player: Player) => (
-          <div
-            key={player.name}
-            className="bg-tyler1-grey rounded-lg overflow-hidden border-2 border-tyler1-dark hover:border-tyler1-red transition-all duration-300 hover:scale-105 group"
-          >
-            {/* Player Avatar/Header */}
-            <div className="relative h-48 bg-gradient-to-br from-tyler1-dark to-tyler1-grey flex items-center justify-center">
-              <div className="w-24 h-24 rounded-full bg-tyler1-red flex items-center justify-center text-4xl font-black text-white border-4 border-white/20">
-                {player.name.substring(0, 2).toUpperCase()}
-              </div>
-              <div
-                className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold border ${getRegionColor(
-                  player.region
-                )}`}
-              >
-                {player.region}
-              </div>
-            </div>
-
-            {/* Player Info */}
-            <div className="p-5">
-              <div className="mb-4">
-                <h3 className="text-xl font-bold text-white mb-1 group-hover:text-tyler1-red transition-colors">
-                  {player.name}
-                </h3>
-                <div className="flex items-center gap-3 text-sm">
-                  {player.twitch && (
-                    <a
-                      href={`https://twitch.tv/${player.twitch}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-purple-400 hover:text-purple-300 transition-colors"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
-                      </svg>
-                      <span>Twitch</span>
-                    </a>
-                  )}
-                  {player.twitter && (
-                    <a
-                      href={`https://twitter.com/${player.twitter}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                      </svg>
-                    </a>
-                  )}
-                </div>
-              </div>
-
-              {/* CTA Button */}
-              <Link
-                href={`/players/${player.name.toLowerCase()}`}
-                className="block w-full text-center bg-tyler1-red hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
-              >
-                View Profile
-              </Link>
-            </div>
-          </div>
-        ))}
+            <PlayerCard key={player.name} player={player} />
+          ))}
         </div>
       )}
 
