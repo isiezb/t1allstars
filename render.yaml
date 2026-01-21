@@ -3,8 +3,8 @@ services:
     name: t1allstars-frontend
     runtime: node
     region: frankfurt
-    buildCommand: cd tyler1-allstars/tyler1-allstars && npm install && npm run build
-    startCommand: cd tyler1-allstars/tyler1-allstars && npm start
+    buildCommand: npm install && npm run build
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
