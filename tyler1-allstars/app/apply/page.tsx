@@ -54,16 +54,6 @@ export default async function ApplyPage() {
         >
           Apply Here
         </a>
-
-        <div className="mt-8 pt-8 border-t border-tyler1-dark">
-          <h3 className="text-lg font-bold text-white mb-4">What to Expect</h3>
-          <ul className="text-gray-300 space-y-2 text-left max-w-md mx-auto">
-            <li>• Competitive 1v1 matches on Howling Abyss</li>
-            <li>• Best-of-3 format with double elimination brackets</li>
-            <li>• Prize pools for top performers</li>
-            <li>• Exposure to Tyler1's massive audience</li>
-          </ul>
-        </div>
       </div>
     </div>
   );
