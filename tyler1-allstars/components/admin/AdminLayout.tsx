@@ -33,6 +33,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin/tournaments', label: 'Tournaments', icon: '🏆' },
     { href: '/admin/standings', label: 'Standings', icon: '📈' },
     { href: '/admin/results', label: 'Results', icon: '🎯' },
+    { href: '/admin/vods', label: 'VODs', icon: '📺' },
+    { href: '/admin/rules', label: 'Rules', icon: '📝' },
+    { href: '/admin/application', label: 'Application', icon: '📋' },
   ];
 
   if (!isAuthenticated) {

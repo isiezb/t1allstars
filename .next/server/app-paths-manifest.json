@@ -1,0 +1,19 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/players/page": "app/admin/players/page.js",
+  "/admin/results/page": "app/admin/results/page.js",
+  "/admin/rules/page": "app/admin/rules/page.js",
+  "/admin/standings/page": "app/admin/standings/page.js",
+  "/admin/tournaments/page": "app/admin/tournaments/page.js",
+  "/page": "app/page.js",
+  "/players/page": "app/players/page.js",
+  "/results/page": "app/results/page.js",
+  "/rules/page": "app/rules/page.js",
+  "/schedule/page": "app/schedule/page.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js",
+  "/standings/page": "app/standings/page.js",
+  "/vods/page": "app/vods/page.js"
+}
