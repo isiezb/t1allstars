@@ -23,9 +23,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors">
+                <a href="mailto:tyler1business@gmail.com" className="text-gray-400 hover:text-white text-sm transition-colors">
                   Contact
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
