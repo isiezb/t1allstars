@@ -14,6 +14,7 @@ export default function Navbar() {
     { href: "/results", label: "Results" },
     { href: "/vods", label: "VODs" },
     { href: "/rules", label: "Rules" },
+    { href: "/apply", label: "Apply" },
   ];
 
   return (

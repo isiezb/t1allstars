@@ -23,9 +23,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white text-sm transition-colors">
+                <a href="mailto:tyler1business@gmail.com" className="text-gray-400 hover:text-white text-sm transition-colors">
                   Contact
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
@@ -57,7 +57,18 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://youtube.com/@loltyler1"
+                href="https://www.tiktok.com/@loltyler1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors"
+                aria-label="TikTok"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.81-.6-4.03-1.37-.01 1.39-.01 2.79 0 4.18 0 2.34-.14 4.71-1.1 6.85-1.02 2.33-3 4.13-5.39 4.95-2.15.76-4.52.79-6.66.04-2.33-.82-4.33-2.67-5.3-4.9-1.14-2.5-1.1-5.48.1-7.89.95-1.9 2.69-3.41 4.74-4 1.15-.33 2.36-.4 3.55-.21v4.09c-.94-.13-1.94-.05-2.82.35-.99.44-1.78 1.27-2.17 2.27-.6 1.51-.3 3.32.78 4.54 1.03 1.17 2.69 1.57 4.19 1.05 1.49-.52 2.52-1.96 2.63-3.53.02-3.82 0-7.65.02-11.47z"/>
+                </svg>
+              </a>
+              <a
+                href="https://www.youtube.com/@TYLER1LOL"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-red-600 transition-colors"
