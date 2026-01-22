@@ -6,7 +6,13 @@ import { vodsAPI, VOD } from '@/lib/api';
 export default function VODsPage() {
   const [vods, setVods] = useState<VOD[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedFilter, setSelectedFilter] = useState<'all' | 'Full Stream' | 'Highlight' | 'POV Stream'>('all');
+  const [selectedFilter, setSelectedFilter] = useState<'all' | 'Full Stream' | 'Highlight' | 'POV Stream' | 'Short'>(() => {
+    // Default to 'Short' on mobile devices
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 ? 'Short' : 'all';
+    }
+    return 'all';
+  });
 
   useEffect(() => {
     fetchVODs();
@@ -35,6 +41,8 @@ export default function VODsPage() {
         return 'bg-tyler1-gold text-black';
       case 'POV Stream':
         return 'bg-purple-600 text-white';
+      case 'Short':
+        return 'bg-pink-600 text-white';
       default:
         return 'bg-tyler1-red text-white';
     }
@@ -124,6 +132,16 @@ export default function VODsPage() {
           }`}
         >
           POV Streams
+        </button>
+        <button
+          onClick={() => setSelectedFilter('Short')}
+          className={`px-6 py-2 font-bold rounded transition-colors ${
+            selectedFilter === 'Short'
+              ? 'bg-tyler1-red text-white'
+              : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
+          }`}
+        >
+          Shorts
         </button>
       </div>
 

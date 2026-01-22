@@ -6,7 +6,7 @@ import { useAdminCRUD } from '@/hooks/useAdminCRUD';
 
 type VODFormData = {
   link: string;
-  type: 'Full Stream' | 'Highlight' | 'POV Stream';
+  type: 'Full Stream' | 'Highlight' | 'POV Stream' | 'Short';
 };
 
 export default function AdminVODs() {
@@ -78,12 +78,13 @@ export default function AdminVODs() {
                   <select
                     required
                     value={formData.type}
-                    onChange={(e) => setFormData({ ...formData, type: e.target.value as 'Full Stream' | 'Highlight' | 'POV Stream' })}
+                    onChange={(e) => setFormData({ ...formData, type: e.target.value as 'Full Stream' | 'Highlight' | 'POV Stream' | 'Short' })}
                     className="w-full px-4 py-2 bg-tyler1-dark border border-tyler1-grey rounded text-white focus:outline-none focus:border-tyler1-red"
                   >
                     <option value="Full Stream">Full Stream</option>
                     <option value="Highlight">Highlight</option>
                     <option value="POV Stream">POV Stream</option>
+                    <option value="Short">Short</option>
                   </select>
                 </div>
               </div>
@@ -135,6 +136,7 @@ export default function AdminVODs() {
                       <span className={`px-2 py-1 rounded text-xs font-bold ${
                         vod.type === 'Full Stream' ? 'bg-tyler1-red text-white' :
                         vod.type === 'Highlight' ? 'bg-tyler1-gold text-black' :
+                        vod.type === 'Short' ? 'bg-pink-600 text-white' :
                         'bg-purple-600 text-white'
                       }`}>
                         {vod.type.toUpperCase()}

@@ -58,7 +58,7 @@ export interface VOD {
   id: number;
   title: string;
   link: string;
-  type: 'Full Stream' | 'Highlight' | 'POV Stream';
+  type: 'Full Stream' | 'Highlight' | 'POV Stream' | 'Short';
   date: string;
   duration?: string;
   description?: string;
@@ -209,9 +209,9 @@ export const adminRulesAPI = {
 };
 
 export const adminVODsAPI = {
-  create: (vod: { link: string; type: 'Full Stream' | 'Highlight' | 'POV Stream' }, token: string) =>
+  create: (vod: { link: string; type: 'Full Stream' | 'Highlight' | 'POV Stream' | 'Short' }, token: string) =>
     fetchAdminAPI<VOD>('/vods', { method: 'POST', body: JSON.stringify(vod) }, token),
-  update: (id: string | number, vod: { link: string; type: 'Full Stream' | 'Highlight' | 'POV Stream' }, token: string) =>
+  update: (id: string | number, vod: { link: string; type: 'Full Stream' | 'Highlight' | 'POV Stream' | 'Short' }, token: string) =>
     fetchAdminAPI<VOD>(`/vods/${id}`, { method: 'PUT', body: JSON.stringify(vod) }, token),
   delete: (id: string | number, token: string) =>
     fetchAdminAPI<{ message: string }>(`/vods/${id}`, { method: 'DELETE' }, token),
