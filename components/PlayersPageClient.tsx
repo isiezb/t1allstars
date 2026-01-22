@@ -47,7 +47,7 @@ export default function PlayersPageClient({ players }: { players: Player[] }) {
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
-          🇺🇸 NA
+          NA
         </button>
         <button
           onClick={() => setSelectedRegion('EU')}
@@ -57,7 +57,7 @@ export default function PlayersPageClient({ players }: { players: Player[] }) {
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
-          🇪🇺 EU
+          EU
         </button>
         <button
           onClick={() => setSelectedRegion('KR')}
@@ -67,7 +67,7 @@ export default function PlayersPageClient({ players }: { players: Player[] }) {
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
-          🇰🇷 KR
+          KR
         </button>
       </div>
 
