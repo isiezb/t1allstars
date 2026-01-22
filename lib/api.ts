@@ -209,9 +209,9 @@ export const adminRulesAPI = {
 };
 
 export const adminVODsAPI = {
-  create: (vod: Omit<VOD, 'id' | 'created_at' | 'updated_at'>, token: string) =>
+  create: (vod: { link: string; type: 'Full Stream' | 'Highlight' | 'POV Stream' }, token: string) =>
     fetchAdminAPI<VOD>('/vods', { method: 'POST', body: JSON.stringify(vod) }, token),
-  update: (id: string | number, vod: Partial<VOD>, token: string) =>
+  update: (id: string | number, vod: { link: string; type: 'Full Stream' | 'Highlight' | 'POV Stream' }, token: string) =>
     fetchAdminAPI<VOD>(`/vods/${id}`, { method: 'PUT', body: JSON.stringify(vod) }, token),
   delete: (id: string | number, token: string) =>
     fetchAdminAPI<{ message: string }>(`/vods/${id}`, { method: 'DELETE' }, token),
