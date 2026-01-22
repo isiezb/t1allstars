@@ -5,13 +5,8 @@ import { vodsAPI, adminVODsAPI, VOD } from '@/lib/api';
 import { useAdminCRUD } from '@/hooks/useAdminCRUD';
 
 type VODFormData = {
-  title: string;
   link: string;
   type: 'Full Stream' | 'Highlight' | 'POV Stream';
-  date: string;
-  duration?: string;
-  description?: string;
-  thumbnail?: string;
 };
 
 export default function AdminVODs() {
@@ -31,13 +26,8 @@ export default function AdminVODs() {
     fetchAPI: vodsAPI,
     adminAPI: adminVODsAPI,
     initialFormData: {
-      title: '',
       link: '',
       type: 'Full Stream',
-      date: '',
-      duration: '',
-      description: '',
-      thumbnail: '',
     },
     entityName: 'VOD',
   });
