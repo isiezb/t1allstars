@@ -237,7 +237,7 @@ export default function AdminResults() {
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(result.id, result.tournament)}
+                      onClick={() => handleDelete(String(result.id), result.tournament)}
                       className="text-red-400 hover:text-red-300 text-sm font-bold"
                     >
                       Delete

@@ -318,7 +318,7 @@ export default function AdminTournaments() {
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(tournament.id, tournament.week)}
+                      onClick={() => handleDelete(String(tournament.id), tournament.week)}
                       className="text-red-400 hover:text-red-300 text-sm font-bold"
                     >
                       Delete
