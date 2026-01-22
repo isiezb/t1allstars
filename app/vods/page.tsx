@@ -29,8 +29,19 @@ export default function VODsPage() {
     }
   };
 
+  // Sort VODs by type priority: Full Stream > Highlight > POV Stream > Short
+  const getTypePriority = (type: string) => {
+    switch (type) {
+      case 'Full Stream': return 1;
+      case 'Highlight': return 2;
+      case 'POV Stream': return 3;
+      case 'Short': return 4;
+      default: return 5;
+    }
+  };
+
   const filteredVODs = selectedFilter === 'all'
-    ? vods
+    ? [...vods].sort((a, b) => getTypePriority(a.type) - getTypePriority(b.type))
     : vods.filter(vod => vod.type === selectedFilter);
 
   const getTypeStyles = (type: string) => {
