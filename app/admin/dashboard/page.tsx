@@ -127,17 +127,6 @@ export default function AdminDashboard() {
                 </Link>
               </div>
             </div>
-
-            {/* Info Section */}
-            <div className="mt-8 bg-blue-900/20 border border-blue-500 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-blue-400 mb-2">💡 Getting Started</h3>
-              <ul className="text-gray-300 space-y-2 text-sm">
-                <li>• Add players first to create your roster</li>
-                <li>• Create tournaments with week numbers and regions</li>
-                <li>• Update standings after each tournament</li>
-                <li>• Record results with winners and prizes</li>
-              </ul>
-            </div>
           </>
         )}
       </div>
