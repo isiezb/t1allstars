@@ -3,7 +3,7 @@ services:
     name: t1allstars-frontend
     runtime: node
     region: frankfurt
-    rootDir: tyler1-allstars
+    rootDir: tyler1-allstars/tyler1-allstars
     buildCommand: npm install && npm run build
     startCommand: npm start
     envVars:
