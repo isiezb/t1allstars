@@ -35,7 +35,7 @@ export default function AdminApplication() {
     setMessage(null);
 
     try {
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem('admin_token');
       const response = await fetch(`${API_URL}/application-url`, {
         method: 'PUT',
         headers: {
