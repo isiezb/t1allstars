@@ -142,9 +142,12 @@ export default function VODsPage() {
           {/* VOD Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredVODs.map((vod) => (
-              <div
+              <a
                 key={vod.id}
-                className="bg-tyler1-grey rounded-lg overflow-hidden border border-tyler1-dark hover:border-tyler1-red transition-all duration-300 group"
+                href={vod.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-tyler1-grey rounded-lg overflow-hidden border border-tyler1-dark hover:border-tyler1-red transition-all duration-300 group cursor-pointer"
               >
                 <div className="aspect-video bg-gradient-to-br from-tyler1-dark to-tyler1-grey flex items-center justify-center relative">
                   {vod.thumbnail ? (
@@ -183,16 +186,11 @@ export default function VODsPage() {
                       {vod.description}
                     </p>
                   )}
-                  <a
-                    href={vod.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`flex items-center gap-2 ${getLinkColor(vod.link)} text-sm font-bold`}
-                  >
+                  <div className={`flex items-center gap-2 ${getLinkColor(vod.link)} text-sm font-bold`}>
                     {getVideoIcon(vod.link)}
-                  </a>
+                  </div>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </>
