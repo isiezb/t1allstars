@@ -41,32 +41,63 @@ export default function PlayersPageClient({ players }: { players: Player[] }) {
         </button>
         <button
           onClick={() => setSelectedRegion('NA')}
-          className={`px-6 py-2 font-bold rounded transition-colors ${
+          className={`px-6 py-2 font-bold rounded transition-colors flex items-center gap-2 ${
             selectedRegion === 'NA'
               ? 'bg-tyler1-red text-white'
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
+          <svg className="w-5 h-4" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+            <rect width="60" height="30" fill="#b22234"/>
+            <path d="M0,3.46h60M0,6.92h60M0,10.38h60M0,13.84h60M0,17.3h60M0,20.76h60M0,24.22h60M0,27.68h60" stroke="#fff" strokeWidth="2.31"/>
+            <rect width="24" height="16.15" fill="#3c3b6e"/>
+          </svg>
           NA
         </button>
         <button
           onClick={() => setSelectedRegion('EU')}
-          className={`px-6 py-2 font-bold rounded transition-colors ${
+          className={`px-6 py-2 font-bold rounded transition-colors flex items-center gap-2 ${
             selectedRegion === 'EU'
               ? 'bg-tyler1-red text-white'
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
+          <svg className="w-5 h-4" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="60" height="40" fill="#003399"/>
+            <g fill="#ffcc00">
+              <circle cx="30" cy="8" r="1.5"/>
+              <circle cx="35.5" cy="9.5" r="1.5"/>
+              <circle cx="39" cy="13.5" r="1.5"/>
+              <circle cx="39" cy="19" r="1.5"/>
+              <circle cx="39" cy="26.5" r="1.5"/>
+              <circle cx="35.5" cy="30.5" r="1.5"/>
+              <circle cx="30" cy="32" r="1.5"/>
+              <circle cx="24.5" cy="30.5" r="1.5"/>
+              <circle cx="21" cy="26.5" r="1.5"/>
+              <circle cx="21" cy="19" r="1.5"/>
+              <circle cx="21" cy="13.5" r="1.5"/>
+              <circle cx="24.5" cy="9.5" r="1.5"/>
+            </g>
+          </svg>
           EU
         </button>
         <button
           onClick={() => setSelectedRegion('KR')}
-          className={`px-6 py-2 font-bold rounded transition-colors ${
+          className={`px-6 py-2 font-bold rounded transition-colors flex items-center gap-2 ${
             selectedRegion === 'KR'
               ? 'bg-tyler1-red text-white'
               : 'bg-tyler1-grey text-gray-300 hover:bg-gray-700'
           }`}
         >
+          <svg className="w-5 h-4" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+            <rect width="900" height="600" fill="#fff"/>
+            <circle cx="450" cy="300" r="120" fill="#c60c30"/>
+            <path d="M450 180a120 120 0 0 1 0 240" fill="#003478"/>
+            <g fill="#000">
+              <path d="M630 210l15 15-15 15-15-15z M660 240l15 15-15 15-15-15z M690 270l15 15-15 15-15-15z"/>
+              <path d="M630 330l15 15-15 15-15-15z M660 360l15 15-15 15-15-15z M690 390l15 15-15 15-15-15z"/>
+            </g>
+          </svg>
           KR
         </button>
       </div>
