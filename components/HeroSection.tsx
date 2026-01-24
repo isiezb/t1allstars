@@ -14,17 +14,33 @@ const getRegionFlag = (region: string) => {
 export default async function HeroSection() {
   let nextTournament = null;
   let nextTournamentDate = null;
+  let isLive = false;
 
   try {
     const tournaments = await tournamentsAPI.getAll();
-    // Find the next upcoming tournament
-    const upcomingTournaments = tournaments
-      .filter(t => t.status === 'upcoming')
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    const now = new Date();
 
-    if (upcomingTournaments.length > 0) {
-      nextTournament = upcomingTournaments[0];
-      nextTournamentDate = nextTournament.date;
+    // Check if any tournament is currently live (within 6 hours of start time)
+    const liveTournament = tournaments.find(t => {
+      const startTime = new Date(t.date);
+      const endTime = new Date(startTime.getTime() + 6 * 60 * 60 * 1000); // 6 hours after start
+      return now >= startTime && now <= endTime;
+    });
+
+    if (liveTournament) {
+      nextTournament = liveTournament;
+      nextTournamentDate = liveTournament.date;
+      isLive = true;
+    } else {
+      // Find the next upcoming tournament
+      const upcomingTournaments = tournaments
+        .filter(t => new Date(t.date) > now)
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+      if (upcomingTournaments.length > 0) {
+        nextTournament = upcomingTournaments[0];
+        nextTournamentDate = nextTournament.date;
+      }
     }
   } catch (error) {
     console.error('Failed to fetch tournaments:', error);
@@ -58,15 +74,19 @@ export default async function HeroSection() {
             <>
               <div className="mb-8">
                 <p className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                  NEXT TOURNAMENT: {getRegionFlag(nextTournament.region)} {nextTournament.region}
+                  {isLive ? (
+                    <span className="text-tyler1-red animate-pulse">🔴 LIVE NOW: {getRegionFlag(nextTournament.region)} {nextTournament.region}</span>
+                  ) : (
+                    <>NEXT TOURNAMENT: {getRegionFlag(nextTournament.region)} {nextTournament.region}</>
+                  )}
                 </p>
                 <p className="text-lg sm:text-xl text-gray-300">
                   <LocalDateTime dateString={nextTournament.date} showTime={true} />
                 </p>
               </div>
 
-              {/* Countdown Timer */}
-              <CountdownTimer targetDate={nextTournamentDate} />
+              {/* Countdown Timer - only show if not live */}
+              {!isLive && <CountdownTimer targetDate={nextTournamentDate} />}
             </>
           ) : (
             <div className="mb-8">
