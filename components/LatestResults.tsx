@@ -112,7 +112,7 @@ export default async function LatestResults() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
-              href="/results/week-2"
+              href="/results"
               className="flex-1 text-center bg-tyler1-red hover:bg-red-700 text-white font-bold py-3 px-6 rounded transition-colors duration-200"
             >
               View Full Bracket
@@ -146,7 +146,7 @@ export default async function LatestResults() {
                 </div>
               </div>
               <Link
-                href="/results/week-1"
+                href="/results"
                 className="text-tyler1-red hover:text-red-500 text-sm font-bold"
               >
                 View →

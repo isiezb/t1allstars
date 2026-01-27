@@ -101,7 +101,7 @@ export default async function ScheduleSection() {
 
             {item.status === "complete" && (
               <Link
-                href={`/results/week-${item.week}`}
+                href="/results"
                 className="block w-full text-center bg-tyler1-grey hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
               >
                 View Results
