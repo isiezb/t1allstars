@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { resultsAPI, Result } from "@/lib/api";
+import { getRegionFlag } from "@/lib/regions";
 
 export default async function LatestResults() {
   let latestResult: Result | null = null;
@@ -29,15 +30,6 @@ export default async function LatestResults() {
     );
   }
 
-  const getRegionFlag = (region: string) => {
-    switch (region) {
-      case "NA": return "🇺🇸";
-      case "EU": return "🇪🇺";
-      case "KR": return "🇰🇷";
-      default: return "";
-    }
-  };
-
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center mb-12">
@@ -65,7 +57,9 @@ export default async function LatestResults() {
                 <div>
                   <p className="text-sm text-gray-400 mb-1">Champion</p>
                   <p className="text-3xl font-bold text-white mb-1">{latestResult.winner}</p>
-                  <p className="text-sm text-yellow-400">{getRegionFlag(latestResult.region)} {latestResult.region}</p>
+                  <p className="text-sm text-yellow-400 flex items-center gap-1">
+                    <img src={getRegionFlag(latestResult.region)} alt={latestResult.region} className="w-5 h-4 inline-block" /> {latestResult.region}
+                  </p>
                 </div>
               </div>
               <div className="text-right">
@@ -83,7 +77,9 @@ export default async function LatestResults() {
                 <div>
                   <p className="text-sm text-gray-400 mb-1">Runner-up</p>
                   <p className="text-2xl font-bold text-white mb-1">{latestResult.runner_up}</p>
-                  <p className="text-sm text-yellow-400">{getRegionFlag(latestResult.region)} {latestResult.region}</p>
+                  <p className="text-sm text-yellow-400 flex items-center gap-1">
+                    <img src={getRegionFlag(latestResult.region)} alt={latestResult.region} className="w-5 h-4 inline-block" /> {latestResult.region}
+                  </p>
                 </div>
               </div>
               <div className="text-right">

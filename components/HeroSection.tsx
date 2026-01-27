@@ -1,15 +1,7 @@
 import { tournamentsAPI } from "@/lib/api";
 import CountdownTimer from "./CountdownTimer";
 import LocalDateTime from "./LocalDateTime";
-
-const getRegionFlag = (region: string) => {
-  switch (region) {
-    case "NA": return "🇺🇸";
-    case "EU": return "🇪🇺";
-    case "KR": return "🇰🇷";
-    default: return "";
-  }
-};
+import { getRegionFlag } from "@/lib/regions";
 
 export default async function HeroSection() {
   let nextTournament = null;
@@ -73,11 +65,13 @@ export default async function HeroSection() {
           {nextTournament ? (
             <>
               <div className="mb-8">
-                <p className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                <p className="text-2xl sm:text-3xl font-bold text-white mb-2 flex items-center justify-center gap-2">
                   {isLive ? (
-                    <span className="text-tyler1-red animate-pulse">🔴 LIVE NOW: {getRegionFlag(nextTournament.region)} {nextTournament.region}</span>
+                    <span className="text-tyler1-red animate-pulse flex items-center gap-2">
+                      🔴 LIVE NOW: <img src={getRegionFlag(nextTournament.region)} alt={nextTournament.region} className="w-8 h-6 inline-block" /> {nextTournament.region}
+                    </span>
                   ) : (
-                    <>NEXT TOURNAMENT: {getRegionFlag(nextTournament.region)} {nextTournament.region}</>
+                    <>NEXT TOURNAMENT: <img src={getRegionFlag(nextTournament.region)} alt={nextTournament.region} className="w-8 h-6 inline-block" /> {nextTournament.region}</>
                   )}
                 </p>
                 <p className="text-lg sm:text-xl text-gray-300">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { tournamentsAPI, Tournament } from "@/lib/api";
 import LocalDateTime from "./LocalDateTime";
+import { getRegionFlag } from "@/lib/regions";
 
 const getStatusStyles = (status: string) => {
   switch (status) {
@@ -25,19 +26,6 @@ const getStatusBadge = (status: string) => {
       return <span className="text-xs">📅 UPCOMING</span>;
     default:
       return null;
-  }
-};
-
-const getRegionFlag = (region: string) => {
-  switch (region) {
-    case "NA":
-      return "🇺🇸";
-    case "EU":
-      return "🇪🇺";
-    case "KR":
-      return "🇰🇷";
-    default:
-      return "";
   }
 };
 
@@ -76,7 +64,9 @@ export default async function ScheduleSection() {
                 </p>
               </div>
               <div className="text-right">
-                <div className="text-3xl mb-1">{getRegionFlag(item.region)}</div>
+                <div className="mb-1">
+                  <img src={getRegionFlag(item.region)} alt={item.region} className="w-12 h-9 ml-auto" />
+                </div>
                 <p className="text-lg font-bold text-white">{item.region}</p>
               </div>
             </div>
